@@ -1,9 +1,16 @@
 Package: assayr
-Title: What the Package Does (one line, title case)
+Title: Tools for analyzing biochemical assay data.
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R:
+  person("Nathan", "Day", email = "nathancday@gmail.com", role = c("aut", "cre"))
+  person("Steve", "Hoang", email = "stephen.a.hoang@gmail.com", role = c("aut", "cre"))
+Description: Collection of assay analysis tools.
 Depends: R (>= 3.3.3)
-License: What license is it under?
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
+Imports: magrittr,
+    drc,
+    openxlsx,
+    tidyr,
+    dplyr
