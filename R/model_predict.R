@@ -1,4 +1,3 @@
-
 inversePredLm <- function(y, fit) {
   coefs <- fit$coefficients
   stopifnot((length(coefs) == 2) & names(coefs)[1] == "(Intercept)")
