@@ -1,4 +1,5 @@
-library(magrittr)
+# conveince wrapper for quickly building plot ready confidence intervals
+# works with lm() or lmer() models
 
 confint_builder <- function(mod, all = F) {
     if (class(mod) == "lm") {
@@ -39,5 +40,3 @@ confint_builder <- function(mod, all = F) {
     colnames(ci) <- c("lwr","upr", "est", plot_pred)
     return(ci)
 }
-
-
