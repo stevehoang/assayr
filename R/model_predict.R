@@ -24,9 +24,7 @@ inversePredLL4 <- function(y, fit, curve_id = NULL) {
 }
 
 predDRC <- function(x, fit) {
-  if (is.null(curve_id)) {
-    val <- predict(fit, data.frame(x)) %>%
-      unname()
-  }
+  val <- predict(fit, data.frame(x)) %>%
+    unname()
   return(val)
 }
