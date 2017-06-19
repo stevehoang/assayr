@@ -7,6 +7,7 @@ inversePredLm <- function(y, fit) {
 }
 
 inversePredLL4 <- function(y, fit) {
+  coefs <- fit$coefficients
   b <- coefs[1] %>% unname
   c <- coefs[2] %>% unname
   d <- coefs[3] %>% unname
