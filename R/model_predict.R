@@ -6,13 +6,7 @@ inversePredLm <- function(y, fit) {
   return(x)
 }
 
-inversePredLL4 <- function(y, fit, curve_id = NULL) {
-  if (is.null(curve_id)) {
-    coefs <- fit$coefficients
-  }
-  else {
-    coefs <- fit$coefficients[curve_id == gsub("\\D:", "", names(fit$coefficients))]
-  }
+inversePredLL4 <- function(y, fit) {
   b <- coefs[1] %>% unname
   c <- coefs[2] %>% unname
   d <- coefs[3] %>% unname
