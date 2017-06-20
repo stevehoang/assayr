@@ -1,7 +1,7 @@
 # conveince wrapper for calculating fold changes based on multcomp::glht()
 # works on glht objects (ht) with flexible log base
 
-logfc_builder <- function(ht, base = 2) {
+makeLogFCs <- function(ht, base = 2) {
     if (class(ht) == "glht") {
         if (attributes(ht$model)$class == "lm") {
             if (sum(!grepl("log", (ht$model$call$formula[[2]]))) < 1) {

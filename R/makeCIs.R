@@ -1,7 +1,7 @@
 # conveince wrapper for quickly building plot ready confidence intervals
 # works with lm() or lmer() models
 
-confint_builder <- function(mod, all = F) {
+makeCIs <- function(mod, all = F) {
     if (class(mod) == "lm") {
         if (attributes(mod$terms)$intercept == 1) {
             stop("Consider model with intercept = 0 for easier plotting")
