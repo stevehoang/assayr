@@ -22,7 +22,7 @@ readMolDev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc 
     run_names <- gsub(".*=(\\D+\\d+-?\\d?).*", "\\1", meta_info)
     plate_nums <- gsub(".*Plate *(\\d*|\\d*b).*","\\1", meta_info, ignore.case = T)
     plate_starts <- grep("(Well Name|Plate ID)", output[,1]) + 1
-    plate_stops <- grep("Calculation applied", output[,1])
+    plate_stops <- grep("Calculation applied", output[,1]) - 2
     plate_stops <- plate_stops[-1]
     plate_stops <- c(plate_stops, nrow(output))
     # id row for variables of interest (ultimately colnames)
