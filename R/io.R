@@ -14,8 +14,6 @@ meltPlateXlsx <- function(f, sheet, rows, cols) {
     stopifnot(all(temp %in% LETTERS))
     cols <- sapply(cols, anyBaseToDecimal)
   }
-  rows <- seq(rows[1], rows[2], 1)
-  cols <- seq(cols[1], cols[2], 1)
   plt <- openxlsx::read.xlsx(xlsxFile = f, sheet = sheet, cols = cols,
                              rows = rows, colNames=F)
   plt_m <- meltPlate(plt)
