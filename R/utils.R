@@ -27,7 +27,7 @@ outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = T) {
         if (length(png_title) < 1) {
             png_title <- names(plot_list)[i]
         }
-        png_title %<>% gsub(" |\\:", "_", .)
+        png_title %<>% gsub(" |\\:|/", "_", .)
         png(filename = paste0(dir_path, "/", i, "_", png_title, 
                               ".png"), units = "in", height = 8.5, width = 11, 
             res = 300)
