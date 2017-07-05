@@ -2,7 +2,7 @@
 # detects standard measurements (ie nuclear counts, smaa/nile intensisty, etc)
 # automatically extracts plate information (some additonal cleaning may be required)
 
-read_moldev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc count", "smaa area",
+readMolDev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc count", "smaa area",
                                                      "integrated int", "Nuclear Count",
                                                      "Vesicle", "Cell Count")) {
     if (grepl("\\.txt", scope_txt)) {
@@ -22,7 +22,7 @@ read_moldev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc
     run_names <- gsub(".*=(\\D+\\d+-?\\d?).*", "\\1", meta_info)
     plate_nums <- gsub(".*Plate *(\\d*|\\d*b).*","\\1", meta_info, ignore.case = T)
     plate_starts <- grep("(Well Name|Plate ID)", output[,1]) + 1
-    plate_stops <- grep("Calculation applied", output[,1])
+    plate_stops <- grep("Calculation applied", output[,1]) - 2
     plate_stops <- plate_stops[-1]
     plate_stops <- c(plate_stops, nrow(output))
     # id row for variables of interest (ultimately colnames)
@@ -59,6 +59,3 @@ read_moldev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc
         gsub("^Nuclear.*", "nuc_count", .) %>% gsub("^Vesicle.*", "nile_int", .)
     return(plates)
 }
-
-
-

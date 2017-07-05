@@ -10,35 +10,33 @@ anyBaseToDecimal <- function(value, symbols=LETTERS, zero_indexed=F) {
   return(res)
 }
 
-plot_list_to_png <- function(plot_list, dir_path, overwrite = T) {
+outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = T) {
 # exports a list of plots into as a folder of .pngs
 # used plot_title from ggplot objs and element name from non-ggplot obs as png file name
 # default is overwriting existing directoy, usually what you want for plot iterations
-    
-    if(file.exists(dir_path)) {
+
+    if (file.exists(dir_path)) {
         system(paste("rm -r", dir_path))
     }
-    
     system(paste("mkdir", dir_path))
-    
     for (i in 1:length(plot_list)) {
-        # want to use existing plot title as file name for png
-        if (class(plot_list[[i]])[1] == "gg") { # handles ggplots (ie most of 'em) 
+        png_title <- NULL
+        if (class(plot_list[[i]])[1] == "gg") {
             png_title <- plot_list[[i]]$labels$title
         }
         if (length(png_title) < 1) {
             png_title <- names(plot_list)[i]
         }
-        png_title %<>% gsub(" |\\:", "_", .)
-        # open device to plot
-        png(filename = paste0(dir_path, "/", i, "_", png_title,".png"),
-            units = "in", height = 8.5, width = 11, res = 300)
+        png_title %<>% gsub(" |\\:|/", "_", .)
+        png(filename = paste0(dir_path, "/", i, "_", png_title, 
+                              ".png"), units = "in", height = 8.5, width = 11, 
+            res = 300)
         print(plot_list[[i]])
         dev.off()
     }
 }
 
-na_filler <- function(vector, reverse = F) {
+fillNAs <- function(vector, reverse = F) {
 # fills NA values with previous non-NA values
 # works in forward and reverse
     if (reverse) {
@@ -58,7 +56,7 @@ na_filler <- function(vector, reverse = F) {
     return(vector)
 }
 
-serialMaker <- function(highest, number) {
+makeSerialDilution <- function(highest, number) {
 # calculates serial dilution series
 # set highest concentration and number of diluttions
     std_conc <- c(highest)

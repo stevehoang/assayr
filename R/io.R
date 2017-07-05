@@ -14,13 +14,15 @@ meltPlateXlsx <- function(f, sheet, rows, cols) {
     stopifnot(all(temp %in% LETTERS))
     cols <- sapply(cols, anyBaseToDecimal)
   }
-  rows <- seq(rows[1], rows[2], 1)
-  cols <- seq(cols[1], cols[2], 1)
+
   plt <- openxlsx::read.xlsx(xlsxFile = f, sheet = sheet, cols = cols,
-                             rows = rows, colNames=F)
+                             rows = rows, colNames = F, skipEmptyCols = F)
+  plt <- plt[, min(cols):ncol(plt)]
+  if (ncol(plt) < length(cols)){
+      plt[, (ncol(plt)+1):length(cols)] <- NA
+  }
   plt_m <- meltPlate(plt)
   return(plt_m)
 }
-
 
 
