@@ -1,3 +1,11 @@
+#' Predict x from y in a linear model
+#'
+#' @param y The y value.
+#' @param fit An object of class lm with an intercept and a single coefficient.
+#' @return The x value corresponding to the given y.
+#' @examples
+#' fit <- lm(mpg~hp, data=mtcars)
+#' inversePredLm(15, fit)
 inversePredLm <- function(y, fit) {
   coefs <- fit$coefficients
   stopifnot((length(coefs) == 2) & names(coefs)[1] == "(Intercept)")
@@ -6,6 +14,14 @@ inversePredLm <- function(y, fit) {
   return(x)
 }
 
+#' Predict x from y in a 4-parameter log-logistic model
+#'
+#' @param y The y value.
+#' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
+#' @return The x value corresponding to the given y.
+#' @examples
+#' fit <- drc::drm(mpg~hp, data=mtcars, fct=LL.4())
+#' inversePredLL4(15, fit)
 inversePredLL4 <- function(y, fit) {
   coefs <- fit$coefficients
   b <- coefs[1] %>% unname
@@ -18,6 +34,14 @@ inversePredLL4 <- function(y, fit) {
   return(res)
 }
 
+#' Predict y from x in a log-logistic model
+#'
+#' @param x The x value.
+#' @param fit An object of class drc fit with \code{drm()}.
+#' @return The y value corresponding to the given x.
+#' @examples
+#' fit <- drc::drm(mpg~hp, data=mtcars, fct=LL.4())
+#' predDRC(150, fit)
 predDRC <- function(x, fit) {
   val <- predict(fit, data.frame(x)) %>%
     unname()
