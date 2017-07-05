@@ -6,6 +6,7 @@
 #' @examples
 #' fit <- lm(mpg~hp, data=mtcars)
 #' inversePredLm(15, fit)
+#' @export
 inversePredLm <- function(y, fit) {
   coefs <- fit$coefficients
   stopifnot((length(coefs) == 2) & names(coefs)[1] == "(Intercept)")
@@ -22,6 +23,7 @@ inversePredLm <- function(y, fit) {
 #' @examples
 #' fit <- drc::drm(mpg~hp, data=mtcars, fct=LL.4())
 #' inversePredLL4(15, fit)
+#' @export
 inversePredLL4 <- function(y, fit) {
   coefs <- fit$coefficients
   b <- coefs[1] %>% unname
