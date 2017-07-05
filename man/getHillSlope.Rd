@@ -9,7 +9,7 @@ getHillSlope(fit, curve_id = NULL)
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
 
-\item{curve_id}{The curve_id if multiple curves were fit by \code{drm()}.}
+\item{curve_id}{A character string identifying the curve if multiple curves were fit by \code{drm()}.}
 }
 \description{
 Get the Hill coefficient of a 4-parmeter log-logistic function

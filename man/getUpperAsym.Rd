@@ -2,20 +2,20 @@
 % Please edit documentation in R/sigmoid.R
 \name{getUpperAsym}
 \alias{getUpperAsym}
-\title{#' Get the y value of the upper asymptote in a 4-parmeter log-logistic function}
+\title{Get the y value of the upper asymptote in a 4-parmeter log-logistic function}
 \usage{
 getUpperAsym(fit, curve_id = NULL)
 }
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
 
-\item{curve_id}{The curve_id if multiple curves were fit by \code{drm()}.}
+\item{curve_id}{A character string identifying the curve if multiple curves were fit by \code{drm()}.}
 }
 \value{
 The y intercept of the upper asymptote.
 }
 \description{
-#' Get the y value of the upper asymptote in a 4-parmeter log-logistic function
+Get the y value of the upper asymptote in a 4-parmeter log-logistic function
 }
 \examples{
 fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())

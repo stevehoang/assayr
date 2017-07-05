@@ -1,7 +1,7 @@
-#' #' Get the y value of the upper asymptote in a 4-parmeter log-logistic function
+#' Get the y value of the upper asymptote in a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id The curve_id if multiple curves were fit by \code{drm()}.
+#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The y intercept of the upper asymptote.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
@@ -20,7 +20,7 @@ getUpperAsym <- function(fit, curve_id = NULL) {
 #' Get the y value of the lower asymptote in a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id The curve_id if multiple curves were fit by \code{drm()}.
+#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The y intercept of the lower asymptote.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
@@ -39,7 +39,7 @@ getLowerAsym <- function(fit, curve_id = NULL) {
 #' Get the EC50 value of a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id The curve_id if multiple curves were fit by \code{drm()}.
+#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The x value corresponding to point at which the function is rotationally symmetric.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
@@ -58,7 +58,7 @@ getEC50 <- function(fit, curve_id = NULL) {
 #' Get the Hill coefficient of a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id The curve_id if multiple curves were fit by \code{drm()}.
+#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The Hill coefficient: \eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}} Where c = upper asymptote,
 #' d = lower asymptote, and \eqn{\tilde{e}} = the EC50 value.
 #' @examples
