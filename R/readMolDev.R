@@ -1,7 +1,8 @@
-# generic parser for Molecular Devices Widefield scope output 
+# generic parser for Molecular Devices Widefield scope output
 # detects standard measurements (ie nuclear counts, smaa/nile intensisty, etc)
 # automatically extracts plate information (some additonal cleaning may be required)
 
+#' @export
 readMolDev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc count", "smaa area",
                                                      "integrated int", "Nuclear Count",
                                                      "Vesicle", "Cell Count")) {

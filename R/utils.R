@@ -1,3 +1,4 @@
+#' @export
 anyBaseToDecimal <- function(value, symbols=LETTERS, zero_indexed=F) {
   symbols %<>% as.character()
   value %<>% as.character() %>%
@@ -10,6 +11,7 @@ anyBaseToDecimal <- function(value, symbols=LETTERS, zero_indexed=F) {
   return(res)
 }
 
+#' @export
 outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = T) {
 # exports a list of plots into as a folder of .pngs
 # used plot_title from ggplot objs and element name from non-ggplot obs as png file name
@@ -28,14 +30,15 @@ outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = T) {
             png_title <- names(plot_list)[i]
         }
         png_title %<>% gsub(" |\\:|/", "_", .)
-        png(filename = paste0(dir_path, "/", i, "_", png_title, 
-                              ".png"), units = "in", height = 8.5, width = 11, 
+        png(filename = paste0(dir_path, "/", i, "_", png_title,
+                              ".png"), units = "in", height = 8.5, width = 11,
             res = 300)
         print(plot_list[[i]])
         dev.off()
     }
 }
 
+#' @export
 fillNAs <- function(vector, reverse = F) {
 # fills NA values with previous non-NA values
 # works in forward and reverse
@@ -56,6 +59,7 @@ fillNAs <- function(vector, reverse = F) {
     return(vector)
 }
 
+#' @export
 makeSerialDilution <- function(highest, number) {
 # calculates serial dilution series
 # set highest concentration and number of diluttions

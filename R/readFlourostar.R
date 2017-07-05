@@ -4,6 +4,7 @@
 # optional caputure expression for grabbing plate ids from file names
 # optional column drops based on chr vector of column names
 
+#' @export
 readFlourostar <- function(f, plate_capture = "", col_drops = NA) {
     df <- openxlsx::read.xlsx(f, sheet = 1)
     # grab original length of plate

@@ -1,3 +1,11 @@
+#' Melt a data frame from plate format to long format
+#'
+#' @param plt A data frame representing an assay plate.
+#' @return The melted data frame.
+#' @examples
+#' plate <- as.data.frame(matrix(rnorm(96), nrow = 8))
+#' meltPlate(plate)
+#' @export
 meltPlate <- function(plt) {
   colnames(plt) <- as.character(1:ncol(plt))
   plt$row <- LETTERS[1:nrow(plt)]
@@ -6,6 +14,16 @@ meltPlate <- function(plt) {
   return(plt_m)
 }
 
+#' Read xlsx data in plate format and convert to long format
+#'
+#' @description Read in plate format data from an xlsx file and return a melted
+#' data frame with the contents and well coordinates
+#' @param f A character string -- the xlsx file.
+#' @param sheet The name or index of the sheet.
+#' @param rows a numeric vector of the rows to read
+#' @param cols a numeric vector of the columns to read
+#' @return A melted data frame.
+#' @export
 meltPlateXlsx <- function(f, sheet, rows, cols) {
   if (is.character(cols)) {
     temp <- paste(cols, collapse = "") %>%

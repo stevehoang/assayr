@@ -1,6 +1,7 @@
 # conveince wrapper for calculating fold changes based on multcomp::glht()
 # works on glht objects (ht) with flexible log base
 
+#' @export
 makeLogFCs <- function(ht, base = 2) {
     if (class(ht) == "glht") {
         if (attributes(ht$model)$class == "lm") {

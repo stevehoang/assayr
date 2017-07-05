@@ -1,6 +1,7 @@
 # conveince wrapper for quickly building plot ready confidence intervals
 # works with lm() or lmer() models
 
+#' @export
 makeCIs <- function(mod, all = F) {
     if (class(mod) == "lm") {
         if (attributes(mod$terms)$intercept == 1) {
