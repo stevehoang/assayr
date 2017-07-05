@@ -1,3 +1,15 @@
+#' Convert from anybase to decimal
+#'
+#' @param value The starting value
+#' @param symbols A vector containing all of the symbols used in the origin place
+#' value system listed in sequential order.
+#' @param zero_indexed Logical. Set to TRUE if the first value in \code{symbols}
+#' represents 1, FALSE if 0.
+#' @return \code{value} converted to decimal
+#' @examples
+#' anyBaseToDecimal("A")
+#' anyBaseToDecimal("ABC")
+#' anyBaseToDecimal("FF", symbols = c(0:9, LETTERS[1:6]), zero_indexed=T) #hex to decimal
 #' @export
 anyBaseToDecimal <- function(value, symbols=LETTERS, zero_indexed=F) {
   symbols %<>% as.character()
@@ -38,6 +50,16 @@ outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = T) {
     }
 }
 
+#' Fill NAs in vector with neighboring values
+#'
+#' @description Back- or forward-fill NAs in a vector
+#' @param vector The starting vector
+#' @param reverse Logical. The direction to traverse \code{vector}
+#' @return The back (forward) filled vector.
+#' @examples
+#' x <- c("A", rep(NA, 8), "Z")
+#' fillNAs(x)
+#' fillNAs(x, reverse=T)
 #' @export
 fillNAs <- function(vector, reverse = F) {
 # fills NA values with previous non-NA values
@@ -59,14 +81,20 @@ fillNAs <- function(vector, reverse = F) {
     return(vector)
 }
 
+#' Make a vector of serially halved values.
+#'
+#' @param highest The highest value in the geometric progression.
+#' @param number The number of values in addition to \code{highest} in the sequence.
+#' @return A vector containing the geometric progression
+#' @examples
+#' makeSerialDilution(10, 5)
 #' @export
 makeSerialDilution <- function(highest, number) {
 # calculates serial dilution series
 # set highest concentration and number of diluttions
-    std_conc <- c(highest)
-    for(i in 1:number) {
-        no <- std_conc[i] / 2
-        std_conc <- c(std_conc, no)
-    }
-    return(std_conc)
+  dils <- 2 ^ (-1 * seq(0, number, 1))
+  std_conc <- dils * highest
+  return(std_conc)
 }
+
+

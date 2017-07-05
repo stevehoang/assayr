@@ -60,7 +60,7 @@ getEC50 <- function(fit, curve_id = NULL) {
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
 #' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The Hill coefficient:
-#' \eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}
+#' \eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}.
 #' Where c = upper asymptote, d = lower asymptote, and \eqn{\tilde{e}} = the EC50 value.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
