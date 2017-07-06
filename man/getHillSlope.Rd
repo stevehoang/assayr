@@ -13,7 +13,7 @@ getHillSlope(fit, curve_id = NULL)
 }
 \value{
 The Hill coefficient:
-\eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}
+\eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}.
 Where c = upper asymptote, d = lower asymptote, and \eqn{\tilde{e}} = the EC50 value.
 }
 \description{

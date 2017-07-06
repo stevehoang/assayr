@@ -1,6 +1,13 @@
-# generic parser for Molecular Devices Widefield scope output
-# detects standard measurements (ie nuclear counts, smaa/nile intensisty, etc)
-# automatically extracts plate information (some additonal cleaning may be required)
+#' Import scope files
+#' 
+#' Reads in a Molecular Devices scope output file as a data frame
+#'
+#' @param scope_txt A path to a .txt or .xlsx file with Molecular Devices scope output
+#' @param measurements A character vector with the column names of measurments to extract. By default this is set to include all common measurements. Will drop measurements if they are not present.
+#' @return A tidy data frame with columns for plate, well, site and measurments
+#' @examples
+#' readMolDev("BGA0101-1 SMAA.txt")
+#' readMolDev("BGA0101-1 NileRed Nuc Count.xlsx")
 
 #' @export
 readMolDev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc count", "smaa area",
