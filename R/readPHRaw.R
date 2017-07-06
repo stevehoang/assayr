@@ -2,7 +2,7 @@
 # automatically grab target for respective plate reads
 
 #' @export
-readPureHoney <- function(f, plate_id) {
+readPHRaw <- function(f, plate_id) {
 
     out_ncol_max <- max(count.fields(file = f, sep = ","))
     output <- read.table(file = f, sep = ",", fill = T,
