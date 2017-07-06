@@ -4,7 +4,7 @@
 \alias{getMetaData}
 \title{Import meta data}
 \usage{
-getMetaData(study_id, fully_parse = T)
+getMetaData(study_id, fully_parse = TRUE)
 }
 \arguments{
 \item{study_id}{Character object in the standard study name format (i.e. "RNO0101-1" or "RNO0101").}
@@ -22,5 +22,5 @@ Reads meta data from sample databases on Box via \code{boxr::box_read_excel()}
 meta <- getMetaData("RNO0738")
 
 # returns all studies' meta data from RNO07 project
-all_meta <- getMetaData("RNO0738", fully_parse = F) 
+all_meta <- getMetaData("RNO0738", fully_parse = F)
 }
