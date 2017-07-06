@@ -7,12 +7,12 @@
 getMetaData(study_id, fully_parse = T)
 }
 \arguments{
-\item{study_id}{Character object in the standard study name format (i.e. RNO0101-1 or RNO0101)}
+\item{study_id}{Character object in the standard study name format (i.e. "RNO0101-1" or "RNO0101").}
 
-\item{fully_parse}{Logical indicating whether to try and filter the database to a specific run; Set \code{FALSE} to troublshoot}
+\item{fully_parse}{Logical indicating whether to try and filter the database to a specific run; Set \code{FALSE} to troubleshoot.}
 }
 \value{
-A data frame containing the meta information from a given study or a large data frame with all the meta information from all studies in a program
+A data frame containing the meta information from a given study or a large data frame with all the meta information from all studies in a program.
 }
 \description{
 Reads meta data from sample databases on Box via \code{boxr::box_read_excel()}
