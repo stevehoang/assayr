@@ -23,31 +23,53 @@ anyBaseToDecimal <- function(value, symbols=LETTERS, zero_indexed=F) {
   return(res)
 }
 
+#' Export plots
+#'
+#' Takes a list of plot objects and builds a folder with those plots as individual png files
+#' @param plot_list List containing plot objects
+#' @param dir_path Path for output directory that will be created
+#' @param overwrite Logical indicating whether to overwrite an existing directory with the same path. Defaults to \code{TRUE} for easy analysis interation. Adjust to \code{FALSE} to add individual images to existing directory, may throw errors about existing files.
+#' @param session_info Logical whether to include a \code{gtools::textplot} with the output of \code{sessionInfo()}. Useful for reproducible research.
+#' @return A directory with the elements of \code{plot_list} as png files
+#' @examples
+#' plots <- mtcars %>% split(.$cyl) %>%
+#'            purrr::map(~ ggplot(., aes(mpg, disp)) +
+#'                           geom_point())
+#' outputPlotsAsPngs(plots, "~/Desktop/mtcars_plots_by_cyl/")
 #' @export
-outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = T) {
+outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = TRUE, session_info = TRUE) {
 # exports a list of plots into as a folder of .pngs
 # used plot_title from ggplot objs and element name from non-ggplot obs as png file name
 # default is overwriting existing directoy, usually what you want for plot iterations
 
-    if (file.exists(dir_path)) {
-        system(paste("rm -r", dir_path))
-    }
+  if (overwrite) {
+      system(paste("rm -r", dir_path))
+  }
+
+  if (!file.exists(dir_path)) {
     system(paste("mkdir", dir_path))
-    for (i in 1:length(plot_list)) {
-        png_title <- NULL
-        if (class(plot_list[[i]])[1] == "gg") {
-            png_title <- plot_list[[i]]$labels$title
-        }
-        if (length(png_title) < 1) {
-            png_title <- names(plot_list)[i]
-        }
-        png_title %<>% gsub(" |\\:|/", "_", .)
-        png(filename = paste0(dir_path, "/", i, "_", png_title,
-                              ".png"), units = "in", height = 8.5, width = 11,
-            res = 300)
-        print(plot_list[[i]])
-        dev.off()
+  }
+  if (session_info) {
+    sessionInfo() %>% capture.output() %>% gplots::textplot()
+    title("Session_Info")
+    plot_list[["SessionInfo"]] <- recordPlot()
+  }
+  for (i in 1:length(plot_list)) {
+    png_title <- NULL
+    if (class(plot_list[[i]])[1] == "gg") {
+        png_title <- plot_list[[i]]$labels$title
     }
+    if (length(png_title) < 1) {
+        png_title <- names(plot_list)[i]
+    }
+    png_title %<>% gsub(" |\\:|/", "_", .)
+    png(filename = paste0(dir_path, "/", i, "_", png_title,
+                          ".png"), units = "in", height = 8.5, width = 11,
+        res = 300)
+    print(plot_list[[i]])
+    dev.off()
+}
+
 }
 
 #' Fill NAs in vector with neighboring values
