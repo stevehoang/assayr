@@ -2,7 +2,7 @@
 % Please edit documentation in R/readMolDev.R
 \name{readMolDev}
 \alias{readMolDev}
-\title{Import scope files}
+\title{Molecular Devices Scope Output Reader}
 \usage{
 readMolDev(scope_txt, measurements = c("stell  nuc count", "mac nuc count",
   "smaa area", "integrated int", "Nuclear Count", "Vesicle", "Cell Count"))
@@ -16,7 +16,7 @@ readMolDev(scope_txt, measurements = c("stell  nuc count", "mac nuc count",
 A tidy data frame with columns for plate, well, site and measurments
 }
 \description{
-Reads in a Molecular Devices scope output file as a data frame
+High level wrapper that imports a Molecular Devices scope output file as a data frame. Uses specific document markers to extract relevant meta information, vunerable to changes in the scope output template.
 }
 \examples{
 readMolDev("BGA0101-1 SMAA.txt")

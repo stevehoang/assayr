@@ -1,11 +1,15 @@
-# Parser for PureHoney csv outputs
-# automatically grab target for respective plate reads
-
+#' @title PureHoney Assay Result Reader
+#' @description High level wrapper function that that imports the raw data output from PureHoney as a tibble.
+#' @param raw_file Path to .csv file with PureHoney raw output.
+#' @param plate_id Character vector describing the plate id. Typically just the full file name.
+#' @examples
+#' raw <- dir(".", pattern = "\\.csv", full.names = T) %>%
+#'          map_df(~ readPHRaw(., plate_id = .))
 #' @export
-readPHRaw <- function(f, plate_id) {
+readPHRaw <- function(raw_file, plate_id) {
 
-    out_ncol_max <- max(count.fields(file = f, sep = ","))
-    output <- read.table(file = f, sep = ",", fill = T,
+    out_ncol_max <- max(count.fields(file = raw_file, sep = ","))
+    output <- read.table(file = raw_file, sep = ",", fill = T,
                          col.names = 1:out_ncol_max, stringsAsFactors = F)
 
     species_ids <- grep("XIC", output[,1],value = T)
