@@ -24,7 +24,7 @@ getMetaData <- function(study_id, fully_parse = TRUE) {
         set_names(c("PAH", "PAU", "PAG", "RNO", "HEM"))
     box_which <- sheet_names[program]
 
-    meta <- box_read_excel(box_file, which = box_which, col_names = T)
+    meta <- box_read_excel(box_file, which = box_which, col_names = T, col_types = "text")
 
     if (fully_parse) {
         meta %<>% filter(`STUDY NAME` == study_id)
