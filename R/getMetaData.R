@@ -16,12 +16,12 @@ getMetaData <- function(study_id, fully_parse = TRUE) {
 
     program <- gsub("^(\\D{3}).*", "\\1", study_id)
 
-    box_files <- c(101838632791, 161176997524, 161176997524, 33980749645) %>%
-        set_names(c("PAH", "PAU", "PAG", "RNO"))
+    box_files <- c(101838632791, 161176997524, 161176997524, 33980749645, 185483159790) %>%
+        set_names(c("PAH", "PAU", "PAG", "RNO", "HEM"))
     box_file <- box_files[program]
 
-    sheet_names <- c("PAH", "PAU_Huh7", "PAG_HepG2", "RNO07 Static") %>%
-        set_names(c("PAH", "PAU", "PAG", "RNO"))
+    sheet_names <- c("PAH", "PAU_Huh7", "PAG_HepG2", "RNO07 Static", "HEM01") %>%
+        set_names(c("PAH", "PAU", "PAG", "RNO", "HEM"))
     box_which <- sheet_names[program]
 
     meta <- box_read_excel(box_file, which = box_which, col_names = T)
