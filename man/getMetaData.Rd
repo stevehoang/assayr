@@ -7,7 +7,7 @@
 getMetaData(study_id, fully_parse = TRUE)
 }
 \arguments{
-\item{study_id}{Character object in the standard study name format (i.e. "RNO0101-1" or "RNO0101").}
+\item{study_id}{Character vector in the standard study name format (i.e. "RNO0101-1" or "RNO0101").}
 
 \item{fully_parse}{Logical indicating whether to try and filter the database to a specific run; Set \code{FALSE} to troubleshoot.}
 }
@@ -20,6 +20,7 @@ Reads meta data from sample databases on Box via \code{boxr::box_read_excel()}
 \examples{
 # returns only meta data from study RNO0738
 meta <- getMetaData("RNO0738")
+meta <- getMetaData(c("HEM0100-5", "HEM0100-6"))
 
 # returns all studies' meta data from RNO07 project
 all_meta <- getMetaData("RNO0738", fully_parse = F)
