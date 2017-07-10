@@ -104,9 +104,6 @@ outputPlotsAsPdfs <- function(plot_list, pdf_path, overwrite = TRUE, session_inf
       system(paste("rm", pdf_path))
     }
   }
-  if (!file.exists(dir_path)) {
-    system(paste("mkdir", pdf_path))
-  }
   if (session_info) {
     sessionInfo() %>% capture.output() %>% gplots::textplot()
     title("Session_Info")
