@@ -100,19 +100,19 @@ outputPlotsAsPdfs <- function(plot_list, pdf_path, overwrite = TRUE, session_inf
   # default is overwriting existing directoy, usually what you want for plot iterations
 
   if (overwrite) {
-    if(file.exists(dir_path)) {
-      system(paste("rm -r", dir_path))
+    if(file.exists(pdf_path)) {
+      system(paste("rm", pdf_path))
     }
   }
   if (!file.exists(dir_path)) {
-    system(paste("mkdir", dir_path))
+    system(paste("mkdir", pdf_path))
   }
   if (session_info) {
     sessionInfo() %>% capture.output() %>% gplots::textplot()
     title("Session_Info")
     plot_list[["SessionInfo"]] <- recordPlot()
   }
-  pdf(dir_path, height = height, width = width)
+  pdf(pdf_path, height = height, width = width)
   walk(plot_list, print)
   dev.off()
 
