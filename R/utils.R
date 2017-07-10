@@ -23,29 +23,34 @@ anyBaseToDecimal <- function(value, symbols=LETTERS, zero_indexed=F) {
   return(res)
 }
 
-#' Export plots
+#' @title Export plots
 #'
-#' Takes a list of plot objects and builds a folder with those plots as individual png files
+#' @description Takes a list of plot objects and builds a folder with those plots as individual png files
 #' @param plot_list List containing plot objects
 #' @param dir_path Path for output directory that will be created
 #' @param overwrite Logical indicating whether to overwrite an existing directory with the same path. Defaults to \code{TRUE} for easy analysis interation. Adjust to \code{FALSE} to add individual images to existing directory, may throw errors about existing files.
 #' @param session_info Logical whether to include a \code{gtools::textplot} with the output of \code{sessionInfo()}. Useful for reproducible research.
+#' @param height Numeric object describing height of graphics device. Default unit is inches.
+#' @param width Numeric object describing width of graphics device. Default unit is inches.
+#' @param units Character object, for unit used in height and width, "in" (inches by default). Can be "px", "mm", or "cm".
 #' @return A directory with the elements of \code{plot_list} as png files
 #' @examples
 #' plots <- mtcars %>% split(.$cyl) %>%
 #'            purrr::map(~ ggplot(., aes(mpg, disp)) +
 #'                           geom_point())
-#' outputPlotsAsPngs(plots, "~/Desktop/mtcars_plots_by_cyl/")
+#' outputPlotsAsPdfs(plots, "~/Desktop/mtcars_plots_by_cyl.pdf")
 #' @export
-outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = TRUE, session_info = TRUE) {
+outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = TRUE, session_info = TRUE,
+                              height = 8.5, width = 11, units = "in") {
 # exports a list of plots into as a folder of .pngs
 # used plot_title from ggplot objs and element name from non-ggplot obs as png file name
 # default is overwriting existing directoy, usually what you want for plot iterations
 
   if (overwrite) {
+    if(file.exists(dir_path)) {
       system(paste("rm -r", dir_path))
+    }
   }
-
   if (!file.exists(dir_path)) {
     system(paste("mkdir", dir_path))
   }
@@ -64,13 +69,55 @@ outputPlotsAsPngs <- function(plot_list, dir_path, overwrite = TRUE, session_inf
     }
     png_title %<>% gsub(" |\\:|/", "_", .)
     png(filename = paste0(dir_path, "/", i, "_", png_title,
-                          ".png"), units = "in", height = 8.5, width = 11,
+                          ".png"), units = units, height = height, width = width,
         res = 300)
     print(plot_list[[i]])
     dev.off()
 }
 
 }
+
+#' @title Export plots
+#'
+#' @description Takes a list of plot objects and builds a pdf document with those plots.
+#' @param plot_list List containing plot objects.
+#' @param pdf_path Path for output pdf that will be created. Should end in ".pdf".
+#' @param overwrite Logical indicating whether to overwrite an existing directory with the same path. Defaults to \code{TRUE} for easy analysis interation. Adjust to \code{FALSE} to add individual images to existing directory, may throw errors about existing files.
+#' @param session_info Logical whether to include a \code{gtools::textplot} with the output of \code{sessionInfo()}. Useful for reproducible research.
+#' @param height Numeric object describing height of graphics device. Default unit is inches.
+#' @param width Numeric object describing width of graphics device. Default unit is inches.
+#' @return A directory with the elements of \code{plot_list} as png files
+#' @examples
+#' plots <- mtcars %>% split(.$cyl) %>%
+#'            purrr::map(~ ggplot(., aes(mpg, disp)) +
+#'                           geom_point())
+#' outputPlotsAsPngs(plots, "~/Desktop/mtcars_plots_by_cyl/")
+#' @export
+outputPlotsAsPdfs <- function(plot_list, pdf_path, overwrite = TRUE, session_info = TRUE,
+                              height = 8.5, width = 11) {
+  # exports a list of plots into as a folder of .pngs
+  # used plot_title from ggplot objs and element name from non-ggplot obs as png file name
+  # default is overwriting existing directoy, usually what you want for plot iterations
+
+  if (overwrite) {
+    if(file.exists(dir_path)) {
+      system(paste("rm -r", dir_path))
+    }
+  }
+  if (!file.exists(dir_path)) {
+    system(paste("mkdir", dir_path))
+  }
+  if (session_info) {
+    sessionInfo() %>% capture.output() %>% gplots::textplot()
+    title("Session_Info")
+    plot_list[["SessionInfo"]] <- recordPlot()
+  }
+  pdf(dir_path, height = height, width = width)
+  walk(plot_list, print)
+  dev.off()
+
+}
+
 
 #' Fill NAs in vector with neighboring values
 #'
