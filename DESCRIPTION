@@ -13,5 +13,7 @@ Imports: magrittr,
     drc,
     openxlsx,
     tidyr,
-    dplyr
+    dplyr,
+    ggplot2,
+    cowplot
 RoxygenNote: 6.0.1

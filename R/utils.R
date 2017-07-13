@@ -110,7 +110,7 @@ outputPlotsAsPdfs <- function(plot_list, pdf_path, overwrite = TRUE, session_inf
     plot_list[["SessionInfo"]] <- recordPlot()
   }
   pdf(pdf_path, height = height, width = width)
-  walk(plot_list, print)
+  purrr::walk(plot_list, print)
   dev.off()
 
 }
