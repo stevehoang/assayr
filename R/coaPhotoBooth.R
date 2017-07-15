@@ -13,14 +13,16 @@ coaPhotoBooth <- function(tib,
                           y_var = "conc_incell_uM",
                           output_path = "./",
                           new_folder = TRUE,
-                          limits = list("Acetyl" = c(0, 50),
+                          limits = list("Acetyl" = c(0, 55),
                                         "Isobutyryl" = c(0,35),
                                         "Propionyl" = c(0,45))) {
 
     ggplot2::theme_set(ggplot2::theme_bw())
+    run <- unique(tib$run)
+    ph_id <- unique(pah$plate_id)
     
     if (new_folder) {
-        output_path <- paste0(output_path, run, "_Cmpds/")
+        output_path <- paste0(output_path, run, "_PH", ph_id, "_Cmpds/")
         system( paste("mkdir", output_path) )
     }
 
@@ -35,12 +37,11 @@ coaPhotoBooth <- function(tib,
     }
 
     for (cmpd in levels(tib$tx_cmpd)) {
-        i <- 1
         plots <- list()
         tib1 <- dplyr::filter(tib, tx_cmpd == cmpd)
         num_rows <- length(unique(tib1$curve_plot))
-        run <- unique(tib$run)
-
+        
+        i <- 1
         for (cp in levels(tib1$curve_plot)) {
             tib2 <- dplyr::filter(tib1, curve_plot == cp)
 
@@ -53,7 +54,8 @@ coaPhotoBooth <- function(tib,
                 ggplot2::scale_fill_manual(values = c("blue", "grey"), name = NULL, labels = c("C13", "C12")) +
                 ggplot2::scale_color_manual(values = c("navyblue", "grey20"), name = NULL, labels = c("C13", "C12")) +
                 ggplot2::scale_shape_manual(values = c(21, 23), name = NULL, labels = c("Inside Curve", "Outside Curve")) +
-                ggplot2::scale_y_continuous(limits = limits[[cp]]) +
+                ggplot2::scale_y_continuous(limits = limits[[cp]],
+                                            breaks = function(limits){ seq(0, limits[2], 10) }) +
                 ggplot2::labs(title = NULL,
                      y = paste0("[", cp, "] uM"),
                      x = NULL) +
@@ -67,12 +69,13 @@ coaPhotoBooth <- function(tib,
                       panel.grid.major = ggplot2::element_line(colour="grey90", size=0.5),
                       legend.position = "none",
                       legend.box = "horizontal")
+            
             i <- i + 1
         }
 
         title <- cowplot::ggdraw() + cowplot::draw_label(paste(run, cmpd), fontface= "bold")
 
-        png(filename = paste0(output_path, run, "_", cmpd, ".png"), width = 4,
+        png(filename = paste0(output_path, run, "_PH", ph_id, "_", cmpd, ".png"), width = 4,
             height = num_rows*3, units = "in", res = 300)
 
         print( cowplot::plot_grid(title,
