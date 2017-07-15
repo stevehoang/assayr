@@ -18,6 +18,11 @@ coaPhotoBooth <- function(tib,
                                         "Propionyl" = c(0,45))) {
 
     ggplot2::theme_set(ggplot2::theme_bw())
+    
+    if (new_folder) {
+        output_path <- paste0(output_path, run, "_Cmpds/")
+        system( paste("mkdir", output_path) )
+    }
 
     if (!is.factor(tib$curve_plot)) {
         warning("Cohercing curve_plot %>% as.factor()")
@@ -63,11 +68,6 @@ coaPhotoBooth <- function(tib,
                       legend.position = "none",
                       legend.box = "horizontal")
             i <- i + 1
-        }
-
-        if (new_folder) {
-          output_path <- paste0(output_path, run, "_Cmpd_Bars_Stock/")
-          system( paste("mkdir", output_path) )
         }
 
         title <- cowplot::ggdraw() + cowplot::draw_label(paste(run, cmpd), fontface= "bold")
