@@ -15,9 +15,12 @@ coaPhotoBooth <- function(tib,
                           new_folder = TRUE,
                           limits = list("Acetyl" = c(0, 55),
                                         "Isobutyryl" = c(0,35),
-                                        "Propionyl" = c(0,45))) {
+                                        "Propionyl" = c(0,65))) {
 
     ggplot2::theme_set(ggplot2::theme_bw())
+    cust_fill <- c("blue", "grey") %>% set_names(c("TRUE", "FALSE"))
+    cust_color <- c("navyblue", "grey20") %>% set_names(c("TRUE", "FALSE"))
+    
     run <- unique(tib$run)
     ph_id <- unique(pah$plate_id)
     
@@ -51,8 +54,8 @@ coaPhotoBooth <- function(tib,
                 ggplot2::stat_summary(geom = "bar", fun.y = mean, position = "dodge", width = .75, alpha = .5) +
                 ggplot2::stat_summary(fun.data = "mean_se", geom = "errorbar", width = .15,
                              position = ggplot2::position_dodge(width = .75), show.legend = F) +
-                ggplot2::scale_fill_manual(values = c("blue", "grey"), name = NULL, labels = c("C13", "C12")) +
-                ggplot2::scale_color_manual(values = c("navyblue", "grey20"), name = NULL, labels = c("C13", "C12")) +
+                ggplot2::scale_fill_manual(values = cust_fill) +
+                ggplot2::scale_color_manual(values = cust_color) +
                 ggplot2::scale_shape_manual(values = c(21, 23), name = NULL, labels = c("Inside Curve", "Outside Curve")) +
                 ggplot2::scale_y_continuous(limits = limits[[cp]],
                                             breaks = function(limits){ seq(0, limits[2], 10) }) +
