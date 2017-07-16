@@ -13,18 +13,24 @@
 #' # returns all studies' meta data from RNO07 project
 #' all_meta <- getMetaData("RNO0738", fully_parse = F)
 #'@export
-getMetaData <- function(study_id, fully_parse = TRUE) {
+getMetaData <- function(study_id, fully_parse = TRUE, static = TRUE) {
     # manually adjusted for new experiments
     box_files <- c(101838632791, 161176997524, 161176997524, 33980749645, 185483159790) %>%
         set_names(c("PAH", "PAU", "PAG", "RNO", "HEM"))
-    sheet_names <- c("PAH", "PAU_Huh7", "PAG_HepG2", "RNO07 Static", "HEM01") %>%
-        set_names(c("PAH", "PAU", "PAG", "RNO", "HEM"))
+    sheet_names <- c("PAH", "PAU_Huh7", "PAG_HepG2", "RNO07 Static", "RNO20 (PBMC)", "HEM01") %>%
+        set_names(c("PAH", "PAU", "PAG", "RNO07", "RNO20", "HEM"))
     
     result <- tibble()
     for ( si in study_id ) {
+        
         program <- gsub("^(\\D{3}).*", "\\1", si)
         
         box_file <- box_files[program]
+        
+        if ( program == "RNO") {
+            program <- gsub("^(\\D{3}\\d{2}).*", "\\1", si)
+        }
+        
         box_which <- sheet_names[program]
         
         meta <- box_read_excel(box_file, which = box_which, col_names = T, col_types = "text")
