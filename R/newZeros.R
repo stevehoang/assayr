@@ -3,7 +3,7 @@
 #' @param vec A numeric vector with the concentrations in a dose response curve
 #' @param is_log Default is FALSE. Are the concentration values in `vec` log transformed?
 #' @return A numeric value to be assigned as the new non-zero concentration to represent actual concentrations of zero.
-#' @example
+#' @examples
 #' drc_concs <- c(0, .3, 1, 3, 10, 30, 100)
 #' drc_concs[drc_concs == 0] <- newZeros(drc_concs)
 #' drc_concs

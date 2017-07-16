@@ -5,8 +5,8 @@
 \title{CoA Bar Plot for Compound Dose Response}
 \usage{
 coaPhotoBooth(tib, y_var = "conc_incell_uM", output_path = "./",
-  new_folder = TRUE, limits = list(Acetyl = c(0, 50), Isobutyryl = c(0, 35),
-  Propionyl = c(0, 45)))
+  new_folder = TRUE, limits = list(Acetyl = c(0, 55), Isobutyryl = c(0, 35),
+  Propionyl = c(0, 65)))
 }
 \arguments{
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
@@ -15,11 +15,15 @@ coaPhotoBooth(tib, y_var = "conc_incell_uM", output_path = "./",
 
 \item{output_path}{A character with valid file path. Default is current working directory.}
 
-\item{limits}{A named list with the names matching `unique(tib$curve_plot)` and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.}
+\item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.}
 }
 \value{
-A set of .png images, one for each in `unique(tib$tx_cmpd)`. Default it to make a new directory as a container for the .pngs
+A set of .png images, one for each in \code{unique(tib$tx_cmpd)}. Default it to make a new directory as a container for the .pngs
 }
 \description{
-Plot each cmpd from a PureHoney tibble separatly in a (n-curve)x1 cowplot::plot_grid() with the standard RNO theme.
+Plot each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
+}
+\examples{
+pah <- filter(samps2, run == "PAH0503") # tib
+coaPhotoBooth(pah)
 }

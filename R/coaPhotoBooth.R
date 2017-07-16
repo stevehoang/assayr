@@ -5,7 +5,7 @@
 #' @param output_path A character with valid file path. Default is current working directory.
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.
 #' @return A set of .png images, one for each in \code{unique(tib$tx_cmpd)}. Default it to make a new directory as a container for the .pngs
-#' @example
+#' @examples
 #' pah <- filter(samps2, run == "PAH0503") # tib
 #' coaPhotoBooth(pah)
 #' @export
@@ -20,10 +20,10 @@ coaPhotoBooth <- function(tib,
     ggplot2::theme_set(ggplot2::theme_bw())
     cust_fill <- c("blue", "grey") %>% set_names(c("TRUE", "FALSE"))
     cust_color <- c("navyblue", "grey20") %>% set_names(c("TRUE", "FALSE"))
-    
+
     run <- unique(tib$run)
     ph_id <- unique(pah$plate_id)
-    
+
     if (new_folder) {
         output_path <- paste0(output_path, run, "_PH", ph_id, "_Cmpds/")
         system( paste("mkdir", output_path) )
@@ -43,7 +43,7 @@ coaPhotoBooth <- function(tib,
         plots <- list()
         tib1 <- dplyr::filter(tib, tx_cmpd == cmpd)
         num_rows <- length(unique(tib1$curve_plot))
-        
+
         i <- 1
         for (cp in levels(tib1$curve_plot)) {
             tib2 <- dplyr::filter(tib1, curve_plot == cp)
@@ -72,7 +72,7 @@ coaPhotoBooth <- function(tib,
                       panel.grid.major = ggplot2::element_line(colour="grey90", size=0.5),
                       legend.position = "none",
                       legend.box = "horizontal")
-            
+
             i <- i + 1
         }
 

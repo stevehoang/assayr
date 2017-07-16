@@ -4,7 +4,7 @@
 \alias{getMetaData}
 \title{Import meta data}
 \usage{
-getMetaData(study_id, fully_parse = TRUE)
+getMetaData(study_id, fully_parse = TRUE, static = TRUE)
 }
 \arguments{
 \item{study_id}{Character vector in the standard study name format (i.e. "RNO0101-1" or "RNO0101").}

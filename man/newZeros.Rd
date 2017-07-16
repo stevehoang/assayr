@@ -17,3 +17,8 @@ A numeric value to be assigned as the new non-zero concentration to represent ac
 \description{
 Tool to adjust concentration values of zero to non-zero values based on the average gap between concentraions in dose response curve. Adjust zero concentrations to be two average gaps less than the lower non-zero concentration. Useful for plotting on with `scale_x_log10()`
 }
+\examples{
+drc_concs <- c(0, .3, 1, 3, 10, 30, 100)
+drc_concs[drc_concs == 0] <- newZeros(drc_concs)
+drc_concs
+}
