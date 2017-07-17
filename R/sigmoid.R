@@ -1,12 +1,12 @@
 #' Make a robust DRC estimate based on Nguyen et al. 2014
-  #'
-  #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
+#'
+#' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
 #' @return  An object of class drc
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
-  #' robustifyDrc(fit)
-  #' @export
+#' robustifyDrc(fit)
+#' @export
 robustifyDrc <- function(fit, conv=0.01) {
     d <- fit$data
     ow <- fit$weights
@@ -28,8 +28,6 @@ robustifyDrc <- function(fit, conv=0.01) {
     w <- sapply(r, function(x) {ifelse(abs(x) < lim, (1 - (x/lim)^2)^2, 0)})
     return(w)
   }
-
-
 
 #' Get the y value of the upper asymptote in a 4-parmeter log-logistic function
 #'

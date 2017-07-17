@@ -1,8 +1,17 @@
-# conveince wrapper for quickly building plot ready confidence intervals
-# works with lm() or lmer() models
-
+#' @title Build plot-ready confidence intervals
+#' @description Wrapper for \code{confint()} that handles the output munging for models of class "lm", "lmerMod" and "lmerModLmerTest".
+#' @usage \code{makeCIs(mod, level = .95, all = FALSE)}
+#' @param mod A model object of class "lm", "lmerMod", or "lmerModLmerTest".
+#' @param level The confidence level required.
+#' @param all A logical indicating whether to return only the first fixed effect on RHS of the model formula (FALSE) or all fixed effects (TRUE).
+#' @examples
+#' mod <- lm(Sepal.Length ~ Species, data = iris)
+#' ci <- makeCIs(mod)
+#'
+#' mods <- mtcars %>% split(.$cyl) %>% purrr::map(~ lm(mpg ~ hp, data = .))
+#' cis <- purrr::map(mods, makeCIs)
 #' @export
-makeCIs <- function(mod, all = F) {
+makeCIs <- function(mod, level = .95, all = FALSE) {
     if (class(mod) == "lm") {
         if (attributes(mod$terms)$intercept == 1) {
             stop("Consider model with intercept = 0 for easier plotting")
@@ -10,7 +19,7 @@ makeCIs <- function(mod, all = F) {
         if (length(attributes(mod$terms)$term.labels) > 1 & all == T) {
             warning("More than 1 predicting variable, watch for extra rows in return or set all = F")
         }
-        ci <- as.data.frame(confint(mod))
+        ci <- as.data.frame(confint(mod, level = level))
         plot_pred <- attributes(mod$terms)$term.labels[1]
         ci <- dplyr::mutate(ci, est = coef(mod), temp = gsub(plot_pred, "", rownames(ci)))
         if (all == F) {

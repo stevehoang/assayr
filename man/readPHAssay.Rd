@@ -5,7 +5,8 @@
 \title{PureHoney Assay Layout Reader}
 \usage{
 readPHAssay(layout_file, plate_ids = NULL, meta_cols = c(1, 3:5),
-  meta_names = c("contents", "sample_id", "imaging_plate", "imaging_well"))
+  meta_names = c("contents", "sample_id", "imaging_plate", "imaging_well"),
+  skip = 10)
 }
 \arguments{
 \item{layout_file}{Path to .xlsx file with PureHoney layout and sample data.}
@@ -15,6 +16,8 @@ readPHAssay(layout_file, plate_ids = NULL, meta_cols = c(1, 3:5),
 \item{meta_cols}{Numeric vector defining the columns to extract for meta section. Default is most common arrangment.}
 
 \item{meta_names}{Character vector defining column names for meta section. Length must match \code{legnth(meta_cols)}. Default is most common arrangment.}
+
+\item{skip}{Number of rows to ignore when looking for plates. Useful for avoiding standard curve references in the header.}
 }
 \description{
 High level wrapper function that that imports the assay layout for PureHoney as a tibble. Uses fixed offset from document markers to capture specific regions, prone to errors if assay document template is altered.
