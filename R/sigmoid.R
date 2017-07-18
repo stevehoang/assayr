@@ -17,10 +17,9 @@ robustifyDrc <- function(fit, conv=0.01) {
     if (mdist > conv) {
         fit <- drc::drm(form, weights=weights, data=d, fct=LL.4())
         robustifyDrc(fit, conv=conv)
-      } else {
-          return(fit)
-        }
-  }
+    }
+    else { return(fit) }
+}
 
 .biweightMean <- function(r) {
     mr <- mean(abs(r))

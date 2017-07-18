@@ -11,18 +11,19 @@
 #' @export
 coaPhotoBooth <- function(tib,
                           y_var = "conc_incell_uM",
+                          grouping_var = "tx_cmpd",
                           output_path = "./",
                           new_folder = TRUE,
                           limits = list("Acetyl" = c(0, 55),
-                                        "Isobutyryl" = c(0,35),
+                                        "Isobutyryl" = c(0,45),
                                         "Propionyl" = c(0,65))) {
-
+    
     ggplot2::theme_set(ggplot2::theme_bw())
     cust_fill <- c("blue", "grey") %>% set_names(c("TRUE", "FALSE"))
     cust_color <- c("navyblue", "grey20") %>% set_names(c("TRUE", "FALSE"))
 
     run <- unique(tib$run)
-    ph_id <- unique(pah$plate_id)
+    ph_id <- unique(pah$plate_id)[1]
 
     if (new_folder) {
         output_path <- paste0(output_path, run, "_PH", ph_id, "_Cmpds/")
@@ -35,13 +36,14 @@ coaPhotoBooth <- function(tib,
     }
 
     if (!is.factor(tib$tx_cmpd)) {
-        warning("Cohercing tx_cmpd %>% as.factor()")
-        tib$tx_cmpd %<>% as.factor()
+        warning(paste("Cohercing", grouping_var, "%>% as.factor()"))
+        tib[[grouping_var]] %<>% as.factor()
     }
 
-    for (cmpd in levels(tib$tx_cmpd)) {
+    for (cmpd in levels(tib[[grouping_var]])) {
         plots <- list()
-        tib1 <- dplyr::filter(tib, tx_cmpd == cmpd)
+        tib1 <- tib[ tib[[grouping_var]] == cmpd, ] %>%
+            droplevels()
         num_rows <- length(unique(tib1$curve_plot))
 
         i <- 1
@@ -78,7 +80,8 @@ coaPhotoBooth <- function(tib,
 
         title <- cowplot::ggdraw() + cowplot::draw_label(paste(run, cmpd), fontface= "bold")
 
-        png(filename = paste0(output_path, run, "_PH", ph_id, "_", cmpd, ".png"), width = 4,
+        png(filename = paste0(output_path, run, "_PH", ph_id, "_", cmpd, ".png"),
+            width = 4,
             height = num_rows*3, units = "in", res = 300)
 
         print( cowplot::plot_grid(title,
@@ -86,7 +89,6 @@ coaPhotoBooth <- function(tib,
                                                      ncol = 1),
                                   ncol = 1,
                                   rel_heights = c(.05, .9) ) )
-
         dev.off()
 
     }
