@@ -18,6 +18,6 @@ The y intercept of the upper asymptote.
 Get the y value of the upper asymptote in a 4-parmeter log-logistic function
 }
 \examples{
-fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 getUpperAsym(fit)
 }

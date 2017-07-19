@@ -4,9 +4,9 @@
 \alias{coaPhotoBooth}
 \title{CoA Bar Plot for Compound Dose Response}
 \usage{
-coaPhotoBooth(tib, y_var = "conc_incell_uM", output_path = "./",
-  new_folder = TRUE, limits = list(Acetyl = c(0, 55), Isobutyryl = c(0, 35),
-  Propionyl = c(0, 65)))
+coaPhotoBooth(tib, y_var = "conc_incell_uM", grouping_var = "tx_cmpd",
+  output_path = "./", new_folder = TRUE, limits = list(Acetyl = c(0, 55),
+  Isobutyryl = c(0, 45), Propionyl = c(0, 65)))
 }
 \arguments{
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}

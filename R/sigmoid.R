@@ -2,7 +2,7 @@
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
-#' @return  An object of class drc
+#' @param maxits Numeric value representing maximum number of iterations
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' robustifyDrc(fit)

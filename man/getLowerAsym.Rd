@@ -18,6 +18,6 @@ The y intercept of the lower asymptote.
 Get the y value of the lower asymptote in a 4-parmeter log-logistic function
 }
 \examples{
-fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 getLowerAsym(fit)
 }

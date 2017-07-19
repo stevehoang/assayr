@@ -20,6 +20,6 @@ A list reporting the top and bottom of the curve (toc, boc)
 Get the bottom and top of a log-logistic curve in a given x range.
 }
 \examples{
-fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 getYBounds(fit, 2, 5)
 }

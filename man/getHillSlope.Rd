@@ -20,6 +20,6 @@ Where c = upper asymptote, d = lower asymptote, and \eqn{\tilde{e}} = the EC50 v
 Get the Hill coefficient of a 4-parmeter log-logistic function
 }
 \examples{
-fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 getEC50(fit)
 }

@@ -22,7 +22,7 @@ A data frame of x and y values.
 Generate y values in increments of a given x range.
 }
 \examples{
-fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 curve <- getCurves(c(2,5), fit, logrange = F)
 plot(ys~xs, data=curve)
 }

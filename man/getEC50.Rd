@@ -18,6 +18,6 @@ The x value corresponding to point at which the function is rotationally symmetr
 Get the EC50 value of a 4-parmeter log-logistic function
 }
 \examples{
-fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 getEC50(fit)
 }
