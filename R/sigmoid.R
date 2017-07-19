@@ -4,19 +4,19 @@
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
 #' @return  An object of class drc
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' robustifyDrc(fit)
 #' @export
-robustifyDrc <- function(fit, conv=0.01) {
+robustifyDrc <- function(fit, conv=0.01, maxits=100) {
     d <- fit$data
     ow <- fit$weights
     d$weights <- .biweightMean(resid(fit))
     mdist <- sum(abs(ow - d$weights))
-    form <- formula(fit)
     print(paste0("Manhattan distance = ", mdist))
-    if (mdist > conv) {
-        fit <- drc::drm(form, weights=weights, data=d, fct=LL.4())
-        robustifyDrc(fit, conv=conv)
+    if (mdist > conv & maxits > 0) {
+        maxits <- maxits - 1
+        fit <- drc::drm(formula(fit), weights=weights, data=d, fct=drc::LL.4())
+        robustifyDrc(fit, conv=conv, maxits=maxits)
     }
     else { return(fit) }
 }
@@ -34,7 +34,7 @@ robustifyDrc <- function(fit, conv=0.01) {
 #' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The y intercept of the upper asymptote.
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getUpperAsym(fit)
 #' @export
 getUpperAsym <- function(fit, curve_id = NULL) {
@@ -53,7 +53,7 @@ getUpperAsym <- function(fit, curve_id = NULL) {
 #' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The y intercept of the lower asymptote.
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getLowerAsym(fit)
 #' @export
 getLowerAsym <- function(fit, curve_id = NULL) {
@@ -72,7 +72,7 @@ getLowerAsym <- function(fit, curve_id = NULL) {
 #' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
 #' @return The x value corresponding to point at which the function is rotationally symmetric.
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getEC50(fit)
 #' @export
 getEC50 <- function(fit, curve_id = NULL) {
@@ -93,7 +93,7 @@ getEC50 <- function(fit, curve_id = NULL) {
 #' \eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}.
 #' Where c = upper asymptote, d = lower asymptote, and \eqn{\tilde{e}} = the EC50 value.
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getEC50(fit)
 #' @export
 getHillSlope <- function(fit, curve_id = NULL) {
@@ -116,7 +116,7 @@ getHillSlope <- function(fit, curve_id = NULL) {
 #' @param npoint Number of increments in the x range.
 #' @return A data frame of x and y values.
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' curve <- getCurves(c(2,5), fit, logrange = F)
 #' plot(ys~xs, data=curve)
 #' @export
@@ -142,7 +142,7 @@ getCurves <- function(range, fit, logrange = T, npoint=100) {
 #' @param low_x The low end of the x range.
 #' @return A list reporting the top and bottom of the curve (toc, boc)
 #' @examples
-#' fit <- drc::drm(disp~wt, data=mtcars, fct=LL.4())
+#' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getYBounds(fit, 2, 5)
 #' @export
 getYBounds <- function(fit, high_x, low_x) {
