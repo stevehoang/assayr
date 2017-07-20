@@ -94,7 +94,7 @@ drcPhotoBooth <- function(tib,
       plots[[i]] <- ggplot2::ggplot(tib_dr2, ggplot2::aes(tx_conc, conc_incell_uM)) +
         ggplot2::geom_line(data = curves2, ggplot2::aes(xs, ys)) +
         ggplot2::geom_point() +
-        ggplot2::scale_x_log10(breaks = drcBreaks, labels = drcLabels) +
+        ggplot2::scale_x_log10(breaks = drcBreaks) +
         ggplot2::facet_wrap(~ curve_plot, scales = "free") +
         ggplot2::labs(title = NULL,
              x = "[Cmpd] uM",
