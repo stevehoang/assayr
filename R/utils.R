@@ -163,4 +163,34 @@ makeSerialDilution <- function(highest, number) {
   return(std_conc)
 }
 
+#' Define nice breaks for dose response curves
+#'
+#' A helper function to be used in \code{ggplot() + scale_x_continuous(..., breaks = drcBreaks)} for the compound concentration.
+#' @param limits Default \code{ggplot2} numeric object of length 2, defining upper and lower bounds for a scale.
+#' @return A numeric vector with the break makes to be plotted.
+#' @examples
+#' ggplot(data = ph_drc, aes(tx_conc, conc_incell_uM) +
+#' geom_curve() +
+#' scale_x_continuous(breaks = drcBreaks, labels = drcLabels)
+#' @export
+drcBreaks <- function(limits) {
+  breaks <- c(.01, .1, .3, 1, 3, 10, 30, 100, 300)
+  breaks <- breaks[breaks >= limits[1] & breaks <= limits[2]]
+  return(breaks)
+}
 
+#' Overwrite lowest value label with "0" for dose response curves
+#'
+#' A helper function to be used in \code{ggplot() + scale_x_continuous(..., labels = drcLabels)} for relabeling the lowest compound concentration from its log-approximate value. This function is the correction for \code{newZeros()}.
+#' @param limits Default \code{ggplot2} numeric object of length 2, defining upper and lower bounds for a scale.
+#' @return A numeric vector with the the lowest value set to 0.
+#' @examples
+#' ggplot(data = ph_drc, aes(tx_conc, conc_incell_uM) +
+#' geom_curve() +
+#' scale_x_continuous(breaks = drcBreaks, labels = drcLabels)
+#' @export
+drcLabels <- function(breaks) {
+  labels <- breaks
+  labels[1] <- 0
+  return(labels)
+}

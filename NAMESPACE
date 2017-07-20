@@ -2,6 +2,9 @@
 
 export(anyBaseToDecimal)
 export(coaPhotoBooth)
+export(drcBreaks)
+export(drcLabels)
+export(drcPhotoBooth)
 export(fillNAs)
 export(getCurves)
 export(getEC50)

@@ -18,12 +18,14 @@ coaPhotoBooth <- function(tib,
                                         "Isobutyryl" = c(0,45),
                                         "Propionyl" = c(0,65))) {
     
+    # bc of bug in theme_void() https://github.com/tidyverse/ggplot2/issues/2058
     ggplot2::theme_set(ggplot2::theme_bw())
+    
     cust_fill <- c("blue", "grey") %>% set_names(c("TRUE", "FALSE"))
     cust_color <- c("navyblue", "grey20") %>% set_names(c("TRUE", "FALSE"))
 
     run <- unique(tib$run)
-    ph_id <- unique(pah$plate_id)[1]
+    ph_id <- unique(tib$plate_id)[1]
 
     if (new_folder) {
         output_path <- paste0(output_path, run, "_PH", ph_id, "_Cmpds/")
@@ -35,7 +37,7 @@ coaPhotoBooth <- function(tib,
         tib$curve_plot %<>% as.factor()
     }
 
-    if (!is.factor(tib$tx_cmpd)) {
+    if (!is.factor(tib[[grouping_var]])) {
         warning(paste("Cohercing", grouping_var, "%>% as.factor()"))
         tib[[grouping_var]] %<>% as.factor()
     }
