@@ -3,16 +3,19 @@
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
 #' @param maxits Numeric value representing maximum number of iterations
+#' @param verbose Logical. If TRUE reports the manhattan distance for each iteration.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' robustifyDrc(fit)
 #' @export
-robustifyDrc <- function(fit, conv=0.01, maxits=100) {
+robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE) {
     d <- fit$data
     ow <- fit$weights
     d$weights <- .biweightMean(resid(fit))
     mdist <- sum(abs(ow - d$weights))
-    print(paste0("Manhattan distance = ", mdist))
+    if (verbose) {
+      print(paste0("Manhattan distance = ", mdist))
+    }
     if (mdist > conv & maxits > 0) {
         maxits <- maxits - 1
         fit <- drc::drm(formula(fit), weights=weights, data=d, fct=drc::LL.4())
@@ -120,7 +123,7 @@ getHillSlope <- function(fit, curve_id = NULL) {
 #' curve <- getCurves(c(2,5), fit, logrange = F)
 #' plot(ys~xs, data=curve)
 #' @export
-getCurves <- function(range, fit, logrange = T, npoint=100) {
+getCurves <- function(range, fit, logrange = TRUE, npoint=100) {
   range %<>% sort
   if (logrange) {
     range <- log(range)
