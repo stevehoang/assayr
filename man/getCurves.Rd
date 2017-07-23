@@ -4,7 +4,7 @@
 \alias{getCurves}
 \title{Generate y values in increments of a given x range.}
 \usage{
-getCurves(range, fit, logrange = T, npoint = 100)
+getCurves(range, fit, logrange = TRUE, npoint = 100)
 }
 \arguments{
 \item{range}{A 2-element vector giving the x range.}
