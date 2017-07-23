@@ -2,16 +2,16 @@
 % Please edit documentation in R/readPHAssay.R
 \name{readPHAssay}
 \alias{readPHAssay}
-\title{PureHoney Assay Layout Reader}
+\title{Generic parser for PureHoney Assay layouts}
 \usage{
 readPHAssay(layout_file, plate_ids = NULL, meta_cols = c(1, 3:5),
   meta_names = c("contents", "sample_id", "imaging_plate", "imaging_well"),
   skip = 10)
 }
 \arguments{
-\item{layout_file}{Path to .xlsx file with PureHoney layout and sample data.}
+\item{layout_file}{Path to .xlsx file with PureHoney assay layout.}
 
-\item{plate_ids}{Optional argument to extract only specific plate(s) from multi-plate document. Expects character vector.}
+\item{plate_ids}{Optional character vector to extract only specific plate(s) from multi-plate document.}
 
 \item{meta_cols}{Numeric vector defining the columns to extract for meta section. Default is most common arrangment.}
 

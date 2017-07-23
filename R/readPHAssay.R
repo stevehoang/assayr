@@ -1,7 +1,7 @@
-#' @title PureHoney Assay Layout Reader
+#' @title Generic parser for PureHoney Assay layouts
 #' @description High level wrapper function that that imports the assay layout for PureHoney as a tibble. Uses fixed offset from document markers to capture specific regions, prone to errors if assay document template is altered.
-#' @param layout_file Path to .xlsx file with PureHoney layout and sample data.
-#' @param plate_ids Optional argument to extract only specific plate(s) from multi-plate document. Expects character vector.
+#' @param layout_file Path to .xlsx file with PureHoney assay layout.
+#' @param plate_ids Optional character vector to extract only specific plate(s) from multi-plate document.
 #' @param meta_cols Numeric vector defining the columns to extract for meta section. Default is most common arrangment.
 #' @param meta_names Character vector defining column names for meta section. Length must match \code{legnth(meta_cols)}. Default is most common arrangment.
 #' @param skip Number of rows to ignore when looking for plates. Useful for avoiding standard curve references in the header.
@@ -17,13 +17,14 @@ readPHAssay <- function(layout_file,
     read <- read.xlsx(layout_file, colNames = F)
 
     plates <- grep("^1000\\d*", read[,1]) %>%
-        set_names(grep("^1000\\d*", read[,1], value = T))
+        set_names( grep("^1000\\d*", read[,1], value = T) %>%
+                       gsub("10*([1-9]\\d+)($| .*)", "\\1", .) ) %>%
+        .[. > skip]
 
     if (!is.null(plate_ids)) {
-        plates %<>% .[grepl(plate_ids, names(plates))]
+        plates %<>% .[names(plates) %in% plate_ids]
     }
 
-    plates %<>% .[. > skip]
     layout <- map_df(plates,
                      ~ meltPlate(read[c((.+3) : (.+10)),2:13]),
                      .id = "plate")
