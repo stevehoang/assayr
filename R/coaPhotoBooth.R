@@ -70,7 +70,7 @@ coaPhotoBooth <- function(tib,
                                                                         limits[2],
                                                                         ifelse(limits[2] >20, 10, round(limits[2]/4, 1) ) ) } ) +
               ggplot2::labs(title = NULL,
-                   y = paste0("[", cp, "] uM"),
+                   y = paste0("[", cp, "]", ifelse(y_var == "conc_incell_uM", "uM", "nM")),
                    x = NULL) +
               ggplot2::theme_classic(base_size = 18) +
               ggplot2::theme(panel.border = ggplot2::element_rect(colour = "black", fill=NA, size=1),
