@@ -4,12 +4,12 @@
 \alias{getHillSlope}
 \title{Get the Hill coefficient of a 4-parmeter log-logistic function}
 \usage{
-getHillSlope(fit, curve_id = NULL)
+getHillSlope(fit, CI95 = FALSE)
 }
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
 
-\item{curve_id}{A character string identifying the curve if multiple curves were fit by \code{drm()}.}
+\item{CI95}{Logical. Report 95% confidence interval.}
 }
 \value{
 The Hill coefficient:
