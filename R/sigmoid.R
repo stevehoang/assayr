@@ -7,7 +7,7 @@
 #' @param verbose Logical. If TRUE reports the manhattan distance for each iteration.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
-#' robustifyDrc(fit)
+#' robustifyDrc(fit, formula(fit))
 #' @export
 robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     d <- fit$data
