@@ -64,7 +64,7 @@ drcPhotoBoothShine <- function(tib,
     map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error_allow)))
 
   if (robust) {
-    drs %<>% map(~ assayr::robustifyDrc(., formula(.)))
+    drs %<>% purrr::map(~ assayr::robustifyDrc(., formula(.)))
   }
 
   ranges <- tib_dr %>% split(list(.[[grouping_var]], .$curve_plot), drop = T) %>%
@@ -81,7 +81,7 @@ drcPhotoBoothShine <- function(tib,
   # Conditional calcs
 
   if (ec50 | ec50ci) {
-    ec_cis <- tibble(split = names(drs),
+    ec_cis <- tibble::tibble(split = names(drs),
                      ec50_val = purrr::map_dbl(drs, ~ assayr::getEC50(., CI95 = T)["estimate"]),
                      ec50_ci_low = purrr::map_dbl(drs, ~ assayr::getEC50(., CI95 = T)["2.5 %"]),
                      ec50_ci_high = purrr::map_dbl(drs, ~ assayr::getEC50(., CI95 = T)["97.5 %"])) %>%
@@ -92,7 +92,7 @@ drcPhotoBoothShine <- function(tib,
              ec50_ci_high = round(ec50_ci_high, 2))
   }
   if (Hill) {
-    hill_est <- tibble(split = names(drs),
+    hill_est <- tibble::tibble(split = names(drs),
                        hill = purrr::map_dbl(drs, ~ assayr::getHillSlope(.))) %>%
       tidyr::separate(split, c(grouping_var, "targ"), sep = "\\.") %>%
       dplyr::mutate(curve_plot = gsub(patt, "\\1", targ)) %>%
@@ -100,7 +100,7 @@ drcPhotoBoothShine <- function(tib,
   }
 
   if (up_asym) {
-    up_asym_est <- tibble(split = names(drs),
+    up_asym_est <- tibble::tibble(split = names(drs),
                           ua = purrr::map_dbl(drs, ~ assayr::getUpperAsym(.))) %>%
       tidyr::separate(split, c(grouping_var, "targ"), sep = "\\.") %>%
       dplyr::mutate(curve_plot = gsub(patt, "\\1", targ)) %>%
@@ -118,84 +118,84 @@ drcPhotoBoothShine <- function(tib,
   # Plot
   cp <- dplyr::select(tib_dr, tx_run, curve_plot) %>%
     unique()
-  lims <- gather(as.data.frame(limits))
+  lims <- tidyr::gather(as.data.frame(limits))
   lims %<>% set_colnames(c("curve_plot", y_var))
   lims %<>% merge(cp, by = "curve_plot")
 
   bounds <- as.data.frame(limits) %>%
     t() %>%
     as.data.frame() %>%
-    set_colnames(c("mins", "maxes")) %>%
-    rownames_to_column("curve_plot")
+    magrittr::set_colnames(c("mins", "maxes")) %>%
+    tibble::rownames_to_column("curve_plot")
 
   tib_dr$dummy <- tib_dr[[y_var]]
 
   tib_dr %<>% merge(bounds, by = "curve_plot") %>%
     rowwise() %>%
-    filter(dummy < maxes) %>%
-    filter(dummy > mins)
+    dplyr::filter(dummy < maxes) %>%
+    dplyr::filter(dummy > mins)
 
 
-  p <- ggplot(tib_dr, aes(x = tx_conc, y = conc_incell_uM)) +
-    scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
+  p <- ggplot2::ggplot(tib_dr, ggplot2::aes(x = tx_conc, y = conc_incell_uM)) +
+    ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                   labels = scales::comma) +
-    annotation_logticks(sides = "b") +
-    geom_point() +
-    geom_line(aes(x = xs, y = ys), data = curves) +
-    geom_blank(aes(x=NULL), data = lims) +
-    theme_assayr() +
-    labs(y = "intracellular concentration (uM)",
+    ggplot2::annotation_logticks(sides = "b") +
+    ggplot2::geom_point() +
+    ggplot2::geom_line(ggplot2::aes(x = xs, y = ys), data = curves) +
+    ggplot2::geom_blank(ggplot2::aes(x=NULL), data = lims) +
+    assayr::theme_assayr() +
+    ggplot2::labs(y = "intracellular concentration (uM)",
          x = "compound concentration (uM)")
 
   if (length(unique(tib_dr$tx_run)) > 1) {
-    p <- p + facet_grid(curve_plot ~ tx_run, scales = "free_y")
+    p <- p + ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y")
   } else {
-    p <- p + facet_wrap(~curve_plot, scales = "free_y", ncol=1)
+    p <- p + ggplot2::facet_wrap(~curve_plot, scales = "free_y", ncol=1)
   }
 
   if (ec50ci) {
-    p <- p + geom_vline(aes(xintercept = ec50_ci_low), data = ec_cis,
+    p <- p + ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_ci_low), data = ec_cis,
                         linetype = "dotted") +
-      geom_vline(aes(xintercept = ec50_ci_high), data = ec_cis,
+      ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_ci_high), data = ec_cis,
                  linetype = "dotted")
   }
 
   if (ec50ci) {
-    p <- p + geom_vline(aes(xintercept = ec50_val), data = ec_cis,
+    p <- p + ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_val), data = ec_cis,
                         linetype = "dashed") +
-      geom_vline(aes(xintercept = ec50_ci_low), data = ec_cis,
+      ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_ci_low), data = ec_cis,
                  linetype = "dotted") +
-      geom_vline(aes(xintercept = ec50_ci_high), data = ec_cis,
+      ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_ci_high), data = ec_cis,
                  linetype = "dotted") +
-      geom_label(aes(x = ec50_val, y=Inf,
+      ggplot2::geom_label(ggplot2::aes(x = ec50_val, y=Inf,
                      label = paste0(ec50_val, " [", ec50_ci_low, "]","^", ec50_ci_high)), data = ec_cis,
                  vjust = 1, parse = T)
   }
 
   if (ec50 & !ec50ci) {
-    p <-  p + geom_vline(aes(xintercept = ec50_val), data = ec_cis,
+    p <-  p + ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_val), data = ec_cis,
                          linetype = "dashed") +
-      geom_label(aes(x = ec50_val, y=Inf,
+      ggplot2::geom_label(ggplot2::aes(x = ec50_val, y=Inf,
                      label = ec50_val), data = ec_cis,
                  vjust = 1, alpha = 0.5)
   }
 
   if (up_asym) {
-    p <- p + geom_hline(aes(yintercept = ua), data = up_asym_est,
+    p <- p + ggplot2::geom_hline(ggplot2::aes(yintercept = ua), data = up_asym_est,
                         linetype = "dashed") +
-      geom_label(aes(x = Inf, y=ua, label = ua), data = up_asym_est,
+      ggplot2::geom_label(ggplot2::aes(x = Inf, y=ua, label = ua), data = up_asym_est,
                  hjust = -1, alpha = 0.5)
   }
 
   if (low_asym) {
-    p <- p + geom_hline(aes(yintercept = la), data = low_asym_est,
+    p <- p + ggplot2::geom_hline(ggplot2::aes(yintercept = la), data = low_asym_est,
                         linetype = "dashed") +
-      geom_label(aes(x = Inf, y=la, label = la), data = low_asym_est,
+      ggplot2::geom_label(ggplot2::aes(x = Inf, y=la, label = la), data = low_asym_est,
                  hjust = 1, alpha = 0.5)
   }
 
   if (Hill) {
-    p <- p + geom_label(aes(x = Inf, y=Inf, label = paste0("Hill coef = ", hill)), data = hill_est,
+    p <- p + ggplot2::geom_label(ggplot2::aes(x = Inf, y=Inf, label = paste0("Hill coef = ", hill)), data = hill_est,
                  hjust = 1, vjust = 1, alpha = 0.5)
   }
 
