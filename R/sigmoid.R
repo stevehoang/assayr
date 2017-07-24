@@ -20,7 +20,7 @@ robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE) {
         maxits <- maxits - 1
         # form <- .getFormula(fit)
         # form <- update.formula(formula(fit), formula(fit))
-        fit <- drc::drm(fit$call$formula, weights=weights, data=d, fct=drc::LL.4())
+        fit <- drc::drm(eval(fit$call$formula), weights=weights, data=d, fct=drc::LL.4())
         robustifyDrc(fit, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }
