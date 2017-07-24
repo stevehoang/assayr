@@ -64,7 +64,7 @@ drcPhotoBoothShine <- function(tib,
     purrr::map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error_allow)))
 
   if (robust) {
-    drs %<>% purrr::map(~ assayr::robustifyDrc(., formula(.)))
+    drs %<>% purrr::map(~ robustifyDrc(., form))
   }
 
   ranges <- tib_dr %>% split(list(.[[grouping_var]], .$curve_plot), drop = T) %>%
@@ -75,7 +75,7 @@ drcPhotoBoothShine <- function(tib,
 
   curves %<>% tidyr::separate(split, c(grouping_var, "targ"), sep = "\\.")
   patt <- tib_dr$curve_plot %>% unique
-  patt <- paste(levs, collapse = "|")
+  patt <- paste(patt, collapse = "|")
   patt <- paste0(".*(", patt, ").*")
   curves %<>% dplyr::mutate(curve_plot = gsub(patt, "\\1", targ))
   # Conditional calcs
@@ -131,7 +131,7 @@ drcPhotoBoothShine <- function(tib,
   tib_dr$dummy <- tib_dr[[y_var]]
 
   tib_dr %<>% merge(bounds, by = "curve_plot") %>%
-    rowwise() %>%
+    dplyr::rowwise() %>%
     dplyr::filter(dummy < maxes) %>%
     dplyr::filter(dummy > mins)
 
