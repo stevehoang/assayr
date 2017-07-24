@@ -33,7 +33,6 @@ drcPhotoBoothShine <- function(tib,
   ## Filter
   tib_dr <- dplyr::filter(tib, targ %in% targs)
 
-
   ## Input Handling
   if (!is.numeric(tib_dr$tx_conc)) {
     warning("Coercing tx_conc to numeric...")
