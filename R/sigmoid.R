@@ -8,7 +8,7 @@
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' robustifyDrc(fit)
 #' @export
-robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE) {
+robustifyDrc <- function(formula, fit, conv=0.01, maxits=100, verbose=FALSE) {
     d <- fit$data
     ow <- fit$weights
     d$weights <- .biweightMean(resid(fit))
@@ -20,7 +20,7 @@ robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE) {
         maxits <- maxits - 1
         # form <- .getFormula(fit)
         # form <- update.formula(formula(fit), formula(fit))
-        fit <- drc::drm(eval.parent(fit$call$formula), weights=weights, data=d, fct=drc::LL.4())
+        fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4())
         robustifyDrc(fit, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }
