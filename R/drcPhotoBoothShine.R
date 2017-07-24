@@ -61,7 +61,7 @@ drcPhotoBoothShine <- function(tib,
   form <- paste(y_var, "~", "tx_conc") %>% as.formula
 
   drs <- tib_dr %>% split(list(.[[grouping_var]], .$targ), drop = T) %>%
-    map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error_allow)))
+    purrr::map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error_allow)))
 
   if (robust) {
     drs %<>% purrr::map(~ assayr::robustifyDrc(., formula(.)))
