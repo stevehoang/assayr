@@ -18,7 +18,7 @@ robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE) {
     }
     if (mdist > conv & maxits > 0) {
         maxits <- maxits - 1
-        fit <- drc::drm(formula(fit, env=new.env()), weights=weights, data=d, fct=drc::LL.4())
+        fit <- drc::drm(formula(fit, env=globalenv()), weights=weights, data=d, fct=drc::LL.4())
         robustifyDrc(fit, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }
