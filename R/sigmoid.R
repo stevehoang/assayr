@@ -25,13 +25,6 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     else { return(fit) }
 }
 
-.getFormula <- function(fit) {
-  c <- fit$call %>%
-    as.character()
-  form <- c[2]
-  return(form)
-}
-
 .biweightMean <- function(r) {
     mr <- mean(abs(r))
     lim <- 6 * mr
