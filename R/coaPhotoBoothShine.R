@@ -10,7 +10,7 @@
 #' pah <- filter(samps2, run == "PAH0503") # tib
 #' coaPhotoBooth(pah)
 #' @export
-coaPhotoBoothShiny <- function(tib,
+coaPhotoBoothShine <- function(tib,
                                y_var = "conc_incell_uM",
                                grouping_var = "tx_run",
                                species = "both",

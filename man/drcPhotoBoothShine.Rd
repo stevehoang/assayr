@@ -6,9 +6,9 @@
 \usage{
 drcPhotoBoothShine(tib, targs = c("13C-Isobutyryl", "13C-Propionyl"),
   y_var = "conc_incell_uM", limits = list(Isobutyryl = c(0, 45), Propionyl =
-  c(0, 45)), grouping_var = "tx_run", drm_error_allow = FALSE,
-  ec50 = TRUE, ec50ci = FALSE, Hill = FALSE, up_asym = FALSE,
-  low_asym = FALSE, robust = TRUE)
+  c(0, 45)), grouping_var = "tx_run", drm_error = FALSE, ec50 = TRUE,
+  ec50ci = FALSE, Hill = FALSE, up_asym = FALSE, low_asym = FALSE,
+  robust = TRUE)
 }
 \arguments{
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
@@ -21,7 +21,7 @@ drcPhotoBoothShine(tib, targs = c("13C-Isobutyryl", "13C-Propionyl"),
 
 \item{grouping_var}{A character string representing the column used for grouping experiments.}
 
-\item{drm_error_allow}{Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)}
+\item{drm_error}{Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)}
 
 \item{ec50}{Logical. Show EC50.}
 
