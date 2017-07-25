@@ -1,40 +1,28 @@
-#' @title CoA Bar Plot for Compound Dose Response
+#' @title CoA Bar Plot for Shiny
 #' @description Plot each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
 #' @param tib A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).
 #' @param y_var A character with the column name to be used for the y-axis.
-#' @param output_path A character with valid file path. Default is current working directory.
+#' @param species A character describing which type carbon species to plot. Accepts "both" (default), "heavy", or "natural".
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.
-#' @return A set of .png images, one for each in \code{unique(tib$tx_cmpd)}. Default it to make a new directory as a container for the .pngs
+#' @return A cowplot with analytes as rows and treatments as columns
 #' @examples
-#' data(coa) # example CoA data
-#' coaPhotoBooth(coa)
+#' pah <- filter(samps2, run == "PAH0503") # tib
+#' coaPhotoBooth(pah)
 #' @export
-coaPhotoBooth <- function(tib,
+coaPhotoBoothShiny <- function(tib,
                           y_var = "conc_incell_uM",
                           grouping_var = "tx_cmpd",
-                          output_path = "./",
-                          new_folder = TRUE,
+                          species = "both",
                           limits = list("Acetyl" = c(0, 55),
                                         "Isobutyryl" = c(0,45),
-                                        "Propionyl" = c(0,65))) {
+                                        "Propionyl" = c(0,65) ) ) {
 
-  while (dev.cur() != 1) {
-    dev.off()
-  }
 
   # bc of bug in theme_void() https://github.com/tidyverse/ggplot2/issues/2058
   ggplot2::theme_set(ggplot2::theme_bw())
 
   cust_fill <- c("blue", "grey") %>% set_names(c("TRUE", "FALSE"))
   cust_color <- c("navyblue", "grey20") %>% set_names(c("TRUE", "FALSE"))
-
-  run <- unique(tib$run)
-  ph_id <- unique(tib$plate_id)[1]
-
-  if (new_folder) {
-      output_path <- paste0(output_path, run, "_PH", ph_id, "_Cmpds/")
-      system( paste("mkdir", output_path) )
-  }
 
   if (!is.factor(tib$curve_plot)) {
       warning("Cohercing curve_plot %>% as.factor()")
@@ -44,6 +32,13 @@ coaPhotoBooth <- function(tib,
   if (!is.factor(tib[[grouping_var]])) {
       warning(paste("Cohercing", grouping_var, "%>% as.factor()"))
       tib[[grouping_var]] %<>% as.factor()
+  }
+
+  if (species == "heavy") {
+    tib %<>% filter(heavy == T)
+  }
+  if (species == "natural") {
+    tib %<>% filter(heavy == F)
   }
 
   for (cmpd in levels(tib[[grouping_var]])) {
@@ -89,18 +84,11 @@ coaPhotoBooth <- function(tib,
       title <- cowplot::ggdraw() +
         cowplot::draw_label(paste(run, cmpd), fontface= "bold")
 
-      png(filename = paste0(output_path, run, "_PH", ph_id, "_", cmpd, ".png"),
-          width = 4,
-          height = num_rows*3, units = "in", res = 300)
-
-      print( cowplot::plot_grid(title,
-                                cowplot::plot_grid(plotlist = plots,
-                                                   ncol = 1),
-                                ncol = 1,
-                                rel_heights = c(.05, .9) ) )
-      dev.off()
+      p <- cowplot::plot_grid(title,
+                         cowplot::plot_grid(plotlist = plots, ncol = 1),
+                         ncol = 1,
+                         rel_heights = c(.05, .9) )
+      return(p)
 
   }
 }
-
-
