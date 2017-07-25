@@ -25,19 +25,26 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     else { return(fit) }
 }
 
+tests <- readRDS("~/Binfo/PureHoney/Plate_547/drc_fits_test.RDS")
 robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
   mdist <- 1
+  of <- as.formula(fit)
+
   while ( maxits > 0 ) {
+
     if (verbose) { cat("Interaction # ", abs(maxits - 101), "\nDistance", mdist, "\n-") }
+
     ow <- fit$weights
-    of <- formula(fit)
     d <- fit$data
     d$weights <- biweightMean(resid(fit))
-    fit <- drc::drm(of, weights = weights, data=d, fct=drc::LL.4())
+
+    fit <- drc::drm(of, weights = weights, data = d, fct=drc::LL.4())
     mdist <- sum(abs(ow - d$weights))
+
     if (mdist <= conv) {
       cat("Distance ", mdist)
       break }
+
     maxits <- maxits - 1
   }
   return(fit)
