@@ -135,6 +135,10 @@ drcPhotoBoothShine <- function(tib,
     dplyr::filter(dummy < maxes) %>%
     dplyr::filter(dummy > mins)
 
+  curves %<>% merge(bounds, by = "curve_plot") %>%
+    dplyr::rowwise() %>%
+    dplyr::filter(ys < maxes) %>%
+    dplyr::filter(ys > mins)
 
   p <- ggplot2::ggplot(tib_dr, ggplot2::aes(x = tx_conc, y = conc_incell_uM)) +
     ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
@@ -150,7 +154,7 @@ drcPhotoBoothShine <- function(tib,
   if (length(unique(tib_dr$tx_run)) > 1) {
     p <- p + ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y")
   } else {
-    p <- p + ggplot2::facet_wrap(~curve_plot, scales = "free_y", ncol=1)
+    p <- p + ggplot2::facet_grid(curve_plot~., scales = "free_y")
   }
 
   if (ec50ci) {
