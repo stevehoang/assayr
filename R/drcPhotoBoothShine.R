@@ -144,8 +144,8 @@ drcPhotoBoothShine <- function(tib,
     ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                   labels = scales::comma) +
     ggplot2::annotation_logticks(sides = "b") +
-    ggplot2::geom_point(size = 2) +
     ggplot2::geom_line(ggplot2::aes(x = xs, y = ys), data = curves, size = 1) +
+    ggplot2::geom_point(size = 2, alpha = 0.7) +
     ggplot2::geom_blank(ggplot2::aes(x=NULL), data = lims) +
     assayr::theme_assayr() +
     ggplot2::theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust=1)) +
