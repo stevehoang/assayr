@@ -12,7 +12,7 @@
 robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     d <- fit$data
     ow <- fit$weights
-    d$weights <- .biweightMean(resid(fit))
+    d$weights <- biweightMean(resid(fit))
     mdist <- sum(abs(ow - d$weights))
     if (verbose) {
       print(paste0("Manhattan distance = ", mdist))
@@ -25,7 +25,25 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     else { return(fit) }
 }
 
-.biweightMean <- function(r) {
+robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
+  mdist <- 1
+  while ( maxits > 0 ) {
+    if (verbose) { cat("Interaction # ", abs(maxits - 101), "\nDistance", mdist, "\n-") }
+    ow <- fit$weights
+    of <- formula(fit)
+    d <- fit$data
+    d$weights <- biweightMean(resid(fit))
+    fit <- drc::drm(of, weights = weights, data=d, fct=drc::LL.4())
+    mdist <- sum(abs(ow - d$weights))
+    if (mdist <= conv) {
+      cat("Distance ", mdist)
+      break }
+    maxits <- maxits - 1
+  }
+  return(fit)
+}
+
+biweightMean <- function(r) {
     mr <- mean(abs(r))
     lim <- 6 * mr
     w <- sapply(r, function(x) {ifelse(abs(x) < lim, (1 - (x/lim)^2)^2, 0)})
