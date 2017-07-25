@@ -35,7 +35,7 @@ drcPhotoBoothShine <- function(tib,
 
   ## Input Handling
   if (!is.numeric(tib_dr$tx_conc)) {
-    warning("Coercing tx_conc to numeric...")
+    # warning("Coercing tx_conc to numeric...")
     tib_dr$tx_conc %<>% as.character() %>%
       as.numeric()
   }
@@ -48,12 +48,12 @@ drcPhotoBoothShine <- function(tib,
   }
 
   if (!is.factor(tib_dr$curve_plot)) {
-    warning("Coercing curve_plot to factor...")
+    # warning("Coercing curve_plot to factor...")
     tib_dr$curve_plot %<>% as.factor()
   }
 
   if (!is.factor(tib_dr[[grouping_var]])) {
-    warning(paste("Coercing", grouping_var, "to factor..."))
+    # warning(paste("Coercing", grouping_var, "to factor..."))
     tib_dr[[grouping_var]] %<>% as.factor()
   }
 
