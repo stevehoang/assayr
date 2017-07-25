@@ -6,8 +6,8 @@
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.
 #' @return A set of .png images, one for each in \code{unique(tib$tx_cmpd)}. Default it to make a new directory as a container for the .pngs
 #' @examples
-#' pah <- filter(samps2, run == "PAH0503") # tib
-#' coaPhotoBooth(pah)
+#' data(coa) # example CoA data
+#' coaPhotoBooth(coa)
 #' @export
 coaPhotoBooth <- function(tib,
                           y_var = "conc_incell_uM",
