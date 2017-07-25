@@ -188,7 +188,7 @@ drcPhotoBoothShine <- function(tib,
     p <- p + ggplot2::geom_hline(ggplot2::aes(yintercept = ua), data = up_asym_est,
                         linetype = "dashed") +
       ggplot2::geom_label(ggplot2::aes(x = Inf, y=ua, label = ua), data = up_asym_est,
-                 hjust = -1, alpha = 0.5)
+                 hjust = 1, alpha = 0.5)
   }
 
   if (low_asym) {
