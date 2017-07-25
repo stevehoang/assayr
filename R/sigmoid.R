@@ -60,64 +60,64 @@ robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
 #' Get the y value of the upper asymptote in a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
+#' @param CI95 Logical. Report 95% confidence interval.
 #' @return The y intercept of the upper asymptote.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getUpperAsym(fit)
 #' @export
-getUpperAsym <- function(fit, curve_id = NULL) {
-  if (is.null(curve_id)) {
-    coefs <- fit$coefficients
+getUpperAsym <- function(fit, CI95 = FALSE) {
+  res <- cbind(confint(fit), fit$coefficients)
+  colnames(res)[3] <- "estimate"
+  res <- res["d:(Intercept)", ]
+  if (!CI95) {
+    res <- res["estimate"]
   }
-  else {
-    coefs <- fit$coefficients[curve_id == gsub("\\D:", "", names(fit$coefficients))]
-  }
-  return(unname(coefs[3]))
+  return(res)
 }
 
 #' Get the y value of the lower asymptote in a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
+#' @param CI95 Logical. Report 95% confidence interval.
 #' @return The y intercept of the lower asymptote.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getLowerAsym(fit)
 #' @export
-getLowerAsym <- function(fit, curve_id = NULL) {
-  if (is.null(curve_id)) {
-    coefs <- fit$coefficients
+getLowerAsym <- function(fit, CI95 = FALSE) {
+  res <- cbind(confint(fit), fit$coefficients)
+  colnames(res)[3] <- "estimate"
+  res <- res["c:(Intercept)", ]
+  if (!CI95) {
+    res <- res["estimate"]
   }
-  else {
-    coefs <- fit$coefficients[curve_id == gsub("\\D:", "", names(fit$coefficients))]
-  }
-  return(unname(coefs[2]))
+  return(res)
 }
 
 #' Get the EC50 value of a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
+#' @param CI95 Logical. Report 95% confidence interval.
 #' @return The x value corresponding to point at which the function is rotationally symmetric.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getEC50(fit)
 #' @export
-getEC50 <- function(fit, curve_id = NULL) {
-  if (is.null(curve_id)) {
-    coefs <- fit$coefficients
+getEC50 <- function(fit, CI95 = FALSE) {
+  res <- cbind(confint(fit), fit$coefficients)
+  colnames(res)[3] <- "estimate"
+  res <- res["e:(Intercept)", ]
+  if (!CI95) {
+    res <- res["estimate"]
   }
-  else {
-    coefs <- fit$coefficients[curve_id == gsub("\\D:", "", names(fit$coefficients))]
-  }
-  return(unname(coefs[4]))
+  return(res)
 }
 
 #' Get the Hill coefficient of a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param curve_id A character string identifying the curve if multiple curves were fit by \code{drm()}.
+#' @param CI95 Logical. Report 95% confidence interval.
 #' @return The Hill coefficient:
 #' \eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}.
 #' Where c = upper asymptote, d = lower asymptote, and \eqn{\tilde{e}} = the EC50 value.
@@ -125,16 +125,15 @@ getEC50 <- function(fit, curve_id = NULL) {
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' getEC50(fit)
 #' @export
-getHillSlope <- function(fit, curve_id = NULL) {
-  if (is.null(curve_id)) {
-    coefs <- fit$coefficients
+getHillSlope <- function(fit, CI95=FALSE) {
+  res <- cbind(confint(fit), fit$coefficients)
+  colnames(res)[3] <- "estimate"
+  res <- res["b:(Intercept)", ]
+  res <- (-1 * res) / log(10)
+  if (!CI95) {
+    res <- res["estimate"]
   }
-  else {
-    coefs <- fit$coefficients[curve_id == gsub("\\D:", "", names(fit$coefficients))]
-  }
-  b <- coefs[1]
-  hill <- (-1 * b) / log(10)
-  return(unname(hill))
+  return(res)
 }
 
 #' Generate y values in increments of a given x range.

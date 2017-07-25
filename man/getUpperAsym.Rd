@@ -4,12 +4,12 @@
 \alias{getUpperAsym}
 \title{Get the y value of the upper asymptote in a 4-parmeter log-logistic function}
 \usage{
-getUpperAsym(fit, curve_id = NULL)
+getUpperAsym(fit, CI95 = FALSE)
 }
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
 
-\item{curve_id}{A character string identifying the curve if multiple curves were fit by \code{drm()}.}
+\item{CI95}{Logical. Report 95% confidence interval.}
 }
 \value{
 The y intercept of the upper asymptote.

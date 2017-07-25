@@ -2,10 +2,15 @@
 
 export(anyBaseToDecimal)
 export(coaPhotoBooth)
+<<<<<<< HEAD
 export(coaPhotoBoothShiny)
+=======
+export(coaPhotoBoothShine)
+>>>>>>> 0507e9688788fbf1d0ff5f64ea842261f2cba72c
 export(drcBreaks)
 export(drcLabels)
 export(drcPhotoBooth)
+export(drcPhotoBoothShine)
 export(fillNAs)
 export(getCurves)
 export(getEC50)
