@@ -24,6 +24,6 @@ A set of .png images, one for each in \code{unique(tib$tx_cmpd)}. Default it to 
 Plot each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
 }
 \examples{
-pah <- filter(samps2, run == "PAH0503") # tib
-coaPhotoBooth(pah)
+data(coa) # example CoA data
+coaPhotoBooth(coa)
 }

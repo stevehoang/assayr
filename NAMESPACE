@@ -2,6 +2,7 @@
 
 export(anyBaseToDecimal)
 export(coaPhotoBooth)
+export(coaPhotoBoothShiny)
 export(drcBreaks)
 export(drcLabels)
 export(drcPhotoBooth)
