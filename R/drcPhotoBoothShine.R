@@ -140,7 +140,7 @@ drcPhotoBoothShine <- function(tib,
     dplyr::filter(ys < maxes) %>%
     dplyr::filter(ys > mins)
 
-  p <- ggplot2::ggplot(tib_dr, ggplot2::aes(x = tx_conc, y = conc_incell_uM)) +
+  p <- ggplot2::ggplot(tib_dr, ggplot2::aes_(x = ~tx_conc, y = as.name(y_var))) +
     ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                   labels = scales::comma) +
     ggplot2::annotation_logticks(sides = "b") +
@@ -150,13 +150,14 @@ drcPhotoBoothShine <- function(tib,
     assayr::theme_assayr() +
     ggplot2::theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust=1)) +
     ggplot2::labs(y = "intracellular concentration (uM)",
-         x = "compound concentration (uM)")
+         x = "compound concentration (uM)") +
+    ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y")
 
-  if (length(unique(tib_dr$tx_run)) > 1) {
-    p <- p + ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y")
-  } else {
-    p <- p + ggplot2::facet_grid(curve_plot~., scales = "free_y")
-  }
+  # if (length(unique(tib_dr$tx_run)) > 1) {
+  #   p <- p + ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y")
+  # } else {
+  #   p <- p + ggplot2::facet_grid(curve_plot~., scales = "free_y")
+  # }
 
   if (ec50ci) {
     p <- p + ggplot2::geom_vline(ggplot2::aes(xintercept = ec50_ci_low), data = ec_cis,
