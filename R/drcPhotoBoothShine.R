@@ -148,6 +148,7 @@ drcPhotoBoothShine <- function(tib,
     ggplot2::geom_line(ggplot2::aes(x = xs, y = ys), data = curves) +
     ggplot2::geom_blank(ggplot2::aes(x=NULL), data = lims) +
     assayr::theme_assayr() +
+    ggplot2::theme(axis.text.x = element_text(angle = 30, hjust = 1))
     ggplot2::labs(y = "intracellular concentration (uM)",
          x = "compound concentration (uM)")
 
