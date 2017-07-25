@@ -25,7 +25,6 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     else { return(fit) }
 }
 
-tests <- readRDS("~/Binfo/PureHoney/Plate_547/drc_fits_test.RDS")
 robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
   mdist <- 1
   of <- as.formula(fit, globalenv())
