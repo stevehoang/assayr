@@ -31,6 +31,8 @@ drcPhotoBoothShine <- function(tib,
                                low_asym = FALSE,
                                robust = TRUE) {
   ## Filter
+  tib$targ %<>% gsub("\\-CoA$", "", .)
+  tib$curve_plot %<>% gsub("\\-CoA$", "", .)
   tib_dr <- dplyr::filter(tib, targ %in% targs)
 
   ## Input Handling

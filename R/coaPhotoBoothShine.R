@@ -21,6 +21,8 @@ coaPhotoBoothShine <- function(tib,
 
   # bc of bug in theme_void() https://github.com/tidyverse/ggplot2/issues/2058
   # ggplot2::theme_set(ggplot2::theme_bw())
+  tib$targ %<>% gsub("\\-CoA$", "", .)
+  tib$curve_plot %<>% gsub("\\-CoA$", "", .)
   tib %<>% filter(!c_bool)
 
   if (!is.factor(tib$curve_plot)) {
