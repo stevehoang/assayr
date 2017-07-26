@@ -66,6 +66,17 @@ coaPhotoBoothShine <- function(tib,
   cust_fill <- c("blue", "grey") %>% set_names(c("C13", "C12"))
   cust_color <- c("navyblue", "grey20") %>% set_names(c("C13", "C12"))
 
+  levs <- tib$tx_conc %>%
+    as.character() %>%
+    as.numeric() %>%
+    sort() %>%
+    unique()
+
+  tib$tx_conc %<>%
+    as.character() %>%
+    as.numeric() %>%
+    factor(levels = levs)
+
   p <- ggplot2::ggplot(tib, ggplot2::aes_(x = ~tx_conc, y=as.name(y_var))) +
     # ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                            # labels = scales::comma) +
