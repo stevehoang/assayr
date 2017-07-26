@@ -26,9 +26,9 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
 }
 
 #' Bastard child of \code{robustifyDRC()}
-#' 
+#'
 #' While loop formulation of \code{robustifyDRC()} to eleminate scoping woes and pasing of formula in arguments
-#' 
+#'
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
 #' @param maxits Numeric value representing maximum number of iterations
 #' @param verbose Logical. If TRUE reports the manhattan distance for each iteration.
@@ -67,7 +67,7 @@ robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
 #' Get the y value of the upper asymptote in a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param CI95 Logical. Report 95% confidence interval.
+#' @param CI95 Logical. Report 95\% confidence interval.
 #' @return The y intercept of the upper asymptote.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
@@ -86,7 +86,7 @@ getUpperAsym <- function(fit, CI95 = FALSE) {
 #' Get the y value of the lower asymptote in a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param CI95 Logical. Report 95% confidence interval.
+#' @param CI95 Logical. Report 95\% confidence interval.
 #' @return The y intercept of the lower asymptote.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
@@ -105,7 +105,7 @@ getLowerAsym <- function(fit, CI95 = FALSE) {
 #' Get the EC50 value of a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param CI95 Logical. Report 95% confidence interval.
+#' @param CI95 Logical. Report 95\% confidence interval.
 #' @return The x value corresponding to point at which the function is rotationally symmetric.
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
@@ -124,7 +124,7 @@ getEC50 <- function(fit, CI95 = FALSE) {
 #' Get the Hill coefficient of a 4-parmeter log-logistic function
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param CI95 Logical. Report 95% confidence interval.
+#' @param CI95 Logical. Report 95\% confidence interval.
 #' @return The Hill coefficient:
 #' \eqn{y=c+\frac{d-c}{1+10^{(ln(\tilde{e})-x) \times Hill}}}.
 #' Where c = upper asymptote, d = lower asymptote, and \eqn{\tilde{e}} = the EC50 value.

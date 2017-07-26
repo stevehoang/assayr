@@ -9,7 +9,7 @@ getHillSlope(fit, CI95 = FALSE)
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
 
-\item{CI95}{Logical. Report 95% confidence interval.}
+\item{CI95}{Logical. Report 95\% confidence interval.}
 }
 \value{
 The Hill coefficient:

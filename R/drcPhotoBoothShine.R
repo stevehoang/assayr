@@ -1,5 +1,7 @@
-#' @title CoA DRC Curves Plot for Compound Response
-#' @description Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
+#' CoA DRC Curves Plot for Compound Response
+#'
+#' Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
+#'
 #' @param tib A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).
 #' @param targs A character vector with a subset of \code{unique(tib$targ)} for the target/analytes to be plotted.
 #' @param y_var A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.
@@ -7,12 +9,14 @@
 #' @param grouping_var A character string representing the column used for grouping experiments.
 #' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
 #' @param ec50 Logical. Show EC50.
-#' @param ec50ci Logical. Show 95% CI of EC50.
+#' @param ec50ci Logical. Show 95\% CI of EC50.
 #' @param Hill Logical. Show Hill coefficient.
 #' @param up_asym Logical. Show the upper asymptote.
 #' @param low_asym Logical. Show the lower asymptote.
 #' @param robust Logical. Use robust curve estimation.
+#'
 #' @return A plot object.
+#'
 #' @examples
 #' pah <- filter(samps2, run == "PAH0503") # tib
 #' drcPhotoBooth(pah)

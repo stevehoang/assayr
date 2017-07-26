@@ -25,7 +25,7 @@ drcPhotoBoothShine(tib, targs = c("13C-Isobutyryl", "13C-Propionyl"),
 
 \item{ec50}{Logical. Show EC50.}
 
-\item{ec50ci}{Logical. Show 95% CI of EC50.}
+\item{ec50ci}{Logical. Show 95\% CI of EC50.}
 
 \item{Hill}{Logical. Show Hill coefficient.}
 
