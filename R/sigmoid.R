@@ -25,6 +25,14 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     else { return(fit) }
 }
 
+#' Bastard child of \code{robustifyDRC()}
+#' 
+#' While loop formulation of \code{robustifyDRC()} to eleminate scoping woes and pasing of formula in arguments
+#' 
+#' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
+#' @param maxits Numeric value representing maximum number of iterations
+#' @param verbose Logical. If TRUE reports the manhattan distance for each iteration.
+#' @export
 robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
   mdist <- 1
   of <- as.formula(fit, globalenv())
