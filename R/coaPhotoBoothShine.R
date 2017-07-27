@@ -13,6 +13,9 @@
 coaPhotoBoothShine <- function(tib,
                                y_var = "conc_incell_uM",
                                grouping_var = "tx_run",
+                               analytes = c("Acetyl-CoA",
+                                            "Isobutyryl-CoA",
+                                            "Propionyl-CoA"),
                                species = "both",
                                limits = list("Acetyl" = c(0, 55),
                                              "Isobutyryl" = c(0,45),
@@ -21,9 +24,10 @@ coaPhotoBoothShine <- function(tib,
 
   # bc of bug in theme_void() https://github.com/tidyverse/ggplot2/issues/2058
   # ggplot2::theme_set(ggplot2::theme_bw())
-  tib$targ %<>% gsub("\\-CoA$", "", .)
+  analytes %<>% gsub("\\-CoA$", "", .)
   tib$curve_plot %<>% gsub("\\-CoA$", "", .)
   tib %<>% filter(!c_bool)
+  tib %<>% filter(curve_plot %in% analytes)
 
   if (!is.factor(tib$curve_plot)) {
     tib$curve_plot %<>% as.factor()

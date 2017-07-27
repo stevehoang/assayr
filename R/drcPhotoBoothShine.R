@@ -1,6 +1,6 @@
 #' CoA DRC Curves Plot for Compound Response
 #'
-#' Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
+#' Plot each selected targets for each cmpd from a PureHoney tibble.
 #'
 #' @param tib A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).
 #' @param targs A character vector with a subset of \code{unique(tib$targ)} for the target/analytes to be plotted.
@@ -22,10 +22,13 @@
 #' drcPhotoBooth(pah)
 #' @export
 drcPhotoBoothShine <- function(tib,
-                               targs = c("13C-Isobutyryl", "13C-Propionyl"),
+                               analytes = c("Acetyl-CoA",
+                                            "Isobutyryl-CoA", 
+                                            "Propionyl-CoA"),
                                y_var = "conc_incell_uM",
-                               limits = list("Isobutyryl" = c(0,45),
-                                             "Propionyl" = c(0,45)),
+                               limits = list("Acetyl" = c(0,55)
+                                             "Isobutyryl" = c(0,45),
+                                             "Propionyl" = c(0,65)),
                                grouping_var = "tx_run",
                                drm_error = FALSE,
                                ec50 = TRUE,
@@ -35,9 +38,10 @@ drcPhotoBoothShine <- function(tib,
                                low_asym = FALSE,
                                robust = TRUE) {
   ## Filter
-  tib$targ %<>% gsub("\\-CoA$", "", .)
+  tib %<>% filter(heavy == "TRUE")
   tib$curve_plot %<>% gsub("\\-CoA$", "", .)
-  tib_dr <- dplyr::filter(tib, targ %in% targs)
+  analytes %<>% gsub("\\-CoA$", "", .)
+  tib_dr <- dplyr::filter(tib, curve_plot %in% analytes)
 
   ## Input Handling
   if (!is.numeric(tib_dr$tx_conc)) {
