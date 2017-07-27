@@ -1,9 +1,9 @@
-#' CoA DRC Curves Plot for Compound Response
+#' CoA DRC Curve Plots
 #'
-#' Plot each selected targets for each cmpd from a PureHoney tibble.
+#' Plot one or more dose response curves.
 #'
 #' @param tib A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).
-#' @param targs A character vector with a subset of \code{unique(tib$targ)} for the target/analytes to be plotted.
+#' @param analytes A character vector with a subset of \code{unique(tib$targ)} for the target/analytes to be plotted.
 #' @param y_var A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior.
 #' @param grouping_var A character string representing the column used for grouping experiments.
@@ -23,10 +23,10 @@
 #' @export
 drcPhotoBoothShine <- function(tib,
                                analytes = c("Acetyl-CoA",
-                                            "Isobutyryl-CoA", 
+                                            "Isobutyryl-CoA",
                                             "Propionyl-CoA"),
                                y_var = "conc_incell_uM",
-                               limits = list("Acetyl" = c(0,55)
+                               limits = list("Acetyl" = c(0,55),
                                              "Isobutyryl" = c(0,45),
                                              "Propionyl" = c(0,65)),
                                grouping_var = "tx_run",
