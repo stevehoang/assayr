@@ -13,6 +13,9 @@
 coaPhotoBoothShine <- function(tib,
                                y_var = "conc_incell_uM",
                                grouping_var = "tx_run",
+                               analytes = c("Acetyl-CoA",
+                                            "Isobutyryl-CoA",
+                                            "Propionyl-CoA"),
                                species = "both",
                                limits = list("Acetyl" = c(0, 55),
                                              "Isobutyryl" = c(0,45),
@@ -21,9 +24,10 @@ coaPhotoBoothShine <- function(tib,
 
   # bc of bug in theme_void() https://github.com/tidyverse/ggplot2/issues/2058
   # ggplot2::theme_set(ggplot2::theme_bw())
-  tib$targ %<>% gsub("\\-CoA$", "", .)
+  analytes %<>% gsub("\\-CoA$", "", .)
   tib$curve_plot %<>% gsub("\\-CoA$", "", .)
   tib %<>% filter(!c_bool)
+  tib %<>% filter(curve_plot %in% analytes)
 
   if (!is.factor(tib$curve_plot)) {
     tib$curve_plot %<>% as.factor()
@@ -65,6 +69,17 @@ coaPhotoBoothShine <- function(tib,
     mutate(iso_label = ifelse(heavy == "TRUE", "C13", "C12"))
   cust_fill <- c("blue", "grey") %>% set_names(c("C13", "C12"))
   cust_color <- c("navyblue", "grey20") %>% set_names(c("C13", "C12"))
+
+  levs <- tib$tx_conc %>%
+    as.character() %>%
+    as.numeric() %>%
+    sort() %>%
+    unique()
+
+  tib$tx_conc %<>%
+    as.character() %>%
+    as.numeric() %>%
+    factor(levels = levs)
 
   p <- ggplot2::ggplot(tib, ggplot2::aes_(x = ~tx_conc, y=as.name(y_var))) +
     # ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
