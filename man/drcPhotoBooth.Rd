@@ -2,17 +2,18 @@
 % Please edit documentation in R/drcPhotoBooth.R
 \name{drcPhotoBooth}
 \alias{drcPhotoBooth}
-\title{CoA DRC Curves Plot for Compound Response}
+\title{DRC Curves in a standardized format}
 \usage{
-drcPhotoBooth(tib, targs = c("13C-Isobutyryl-CoA", "13C-Propionyl-CoA"),
-  y_var = "conc_incell_uM", grouping_var = "tx_cmpd", output_path = "./",
-  new_folder = TRUE, limits = list(Isobutyryl = c(0, 45), Propionyl = c(0,
-  45)), drm_error_allow = FALSE, ec50 = TRUE)
+drcPhotoBooth(dr_tib, coef_tib, curves_tib, y_var = "conc_incell_uM",
+  grouping_var = "tx_cmpd", output_path = "./", new_folder = TRUE,
+  limits = list(Isobutyryl = c(0, 45), Propionyl = c(0, 45)))
 }
 \arguments{
-\item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
+\item{dr_tib}{A tibble with the target to be plotted}
 
-\item{targs}{A character vector with a subset of \code{unique(tib$targ)} for the target/analytes to be plotted.}
+\item{coef_tib}{A tibble with the \code{drm()} fit coefficents.}
+
+\item{curves_tib}{A tibble with the estimate curve data from \code{getCurves()}}
 
 \item{y_var}{A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.}
 
@@ -20,13 +21,16 @@ drcPhotoBooth(tib, targs = c("13C-Isobutyryl-CoA", "13C-Propionyl-CoA"),
 
 \item{output_path}{A character with valid file path. Default is current working directory.}
 
-\item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior.}
+\item{new_folder}{A boolean whether to create a new folder automatically.}
+
+\item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior. Not used currently.}
 }
 \value{
-A set of .png images, one for each in \code{unique(tib$tx_cmpd)}. Default it to make a new directory as a container for the .pngs
+A directory of .png images, one for each in \code{unique(tib$tx_cmpd)}.
 }
 \description{
-Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with the standard RNO theme.
+Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with \code{theme_assayr()}.
+This function is wrapper for the plot outputting and expects values to be already caluclated.
 }
 \examples{
 pah <- filter(samps2, run == "PAH0503") # tib

@@ -29,7 +29,7 @@
 #' \item{\code{conc}}{concentration \code{targ} in nM}
 #' \item{\code{in_range}}{is \code{conc} in the range of detection?}
 #' \item{\code{recov}}{fraction of internal standard measured}
-#' \item{\code{conc_corrected}}{\code}{conc / recov}
+#' \item{\code{conc_corrected}}{\code{conc / recov}}
 #' \item{\code{nuc_well}}{count of nuclei per \code{imaging_plate:imaging_well}}
 #' \item{\code{cell_vol_well_L}}{\code{nuc_well * (3.4 * 10^-12)} for hepatocytes}
 #' \item{\code{conc_nmols}}{\code{conc * (.0001 + cell_volume_well_L)}}
