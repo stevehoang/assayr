@@ -221,3 +221,5 @@ drcPhotoBoothShine <- function(tib,
   return(p)
 }
 
+#' @export
+dummy <- function() {print("yes")}
