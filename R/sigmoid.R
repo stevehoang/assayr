@@ -22,11 +22,22 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
     }
     if (mdist > conv & maxits > 0) {
         maxits <- maxits - 1
-        fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
-                        control = drc::drmc(errorm=drm_error, useD=deriv))
+        # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
+        #                 control = drc::drmc(errorm=drm_error, useD=deriv))
+        fit <- .tryFit(formula, data=d, drm_error=drm_error)
         robustifyDrc(fit, formula, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }
+}
+
+.tryFit <- function(form, data, drm_error=FALSE) {
+  fit <- try(drc::drm(form, data = data, fct = drc::LL.4(),
+                      control = drc::drmc(errorm = drm_error)), silent = TRUE)
+  if (class(fit) == "try-error") {
+    fit <- drc::drm(form, data = data, fct = drc::LL.4(),
+                    control = drc::drmc(errorm = drm_error, useD = TRUE))
+  }
+  return(fit)
 }
 
 #' Bastard child of \code{robustifyDRC()}

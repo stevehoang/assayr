@@ -32,7 +32,6 @@ drcPhotoBoothShine <- function(tib,
                                              "Propionyl" = c(0,65)),
                                grouping_var = "tx_run",
                                drm_error = FALSE,
-                               deriv = TRUE,
                                ec50 = TRUE,
                                ec50ci = FALSE,
                                Hill = FALSE,
@@ -72,9 +71,9 @@ drcPhotoBoothShine <- function(tib,
   # Calculate Dose Response
   form <- paste(y_var, "~", "tx_conc") %>% as.formula
 
+
   drs <- tib_dr %>% split(list(.[[grouping_var]], .$targ), drop = T) %>%
-    purrr::map(~ drc::drm(form, data = ., fct = drc::LL.4(),
-                          control = drc::drmc(errorm = drm_error, useD=T)))
+    purrr::map(~ .tryFit(form, data = ., drm_error=drm_error))
 
   if (robust) {
     drs %<>% purrr::map(~ robustifyDrc(., form))
