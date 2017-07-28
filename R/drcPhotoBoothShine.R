@@ -73,8 +73,6 @@ drcPhotoBoothShine <- function(tib,
   form <- paste(y_var, "~", "tx_conc") %>% as.formula
 
   #tesing
-  drs <- tib_dr %>% split(list(.[[grouping_var]], .$targ), drop = T) %>%
-    purrr::map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error, useD=T)))
 
   if (robust) {
     drs %<>% purrr::map(~ robustifyDrc(., form))
@@ -221,5 +219,3 @@ drcPhotoBoothShine <- function(tib,
   return(p)
 }
 
-#' @export
-dummy <- function() {print("yes")}
