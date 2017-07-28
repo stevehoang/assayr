@@ -31,11 +31,12 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
 }
 
 .tryFit <- function(form, data, drm_error=FALSE) {
-  fit <- try(drc::drm(form, data = data, fct = drc::LL.4(),
-                      control = drc::drmc(errorm = drm_error)), silent = TRUE)
-  if (class(fit) == "try-error") {
+  fit <- drc::drm(form, data = data, fct = drc::LL.4(),
+                  control = drc::drmc(errorm = drm_error))
+  if (class(fit) == "list") {
     fit <- drc::drm(form, data = data, fct = drc::LL.4(),
                     control = drc::drmc(errorm = drm_error, useD = TRUE))
+    warning("just kidding, it worked")
   }
   return(fit)
 }
