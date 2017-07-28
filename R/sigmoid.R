@@ -24,17 +24,20 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
         maxits <- maxits - 1
         # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
         #                 control = drc::drmc(errorm=drm_error, useD=deriv))
-        fit <- .tryFit(formula, data=d, drm_error=drm_error)
+        fit <- .tryFit(formula, data=d, weights=weights, drm_error=drm_error)
         robustifyDrc(fit, formula, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }
 }
 
-.tryFit <- function(form, data, drm_error=FALSE) {
-  fit <- drc::drm(form, data = data, fct = drc::LL.4(),
+.tryFit <- function(form, data, weights = NULL, drm_error=FALSE) {
+  if (is.null(weights)) {
+    weights = rep(1, nrow(data))
+  }
+  fit <- drc::drm(form, data = data, weights = weights, fct = drc::LL.4(),
                   control = drc::drmc(errorm = drm_error))
   if (class(fit) == "list") {
-    fit <- drc::drm(form, data = data, fct = drc::LL.4(),
+    fit <- drc::drm(form, data = data, weights = weights, fct = drc::LL.4(),
                     control = drc::drmc(errorm = drm_error, useD = TRUE))
     warning("just kidding, it worked")
   }
