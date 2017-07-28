@@ -32,7 +32,7 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
 
 .tryFit <- function(form, data, weights = NULL, drm_error=FALSE) {
   if (is.null(weights)) {
-    weights = rep(1, nrow(data))
+    weights <- rep(1, nrow(data))
   }
   fit <- drc::drm(form, data = data, weights = weights, fct = drc::LL.4(),
                   control = drc::drmc(errorm = drm_error))
