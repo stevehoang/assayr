@@ -24,7 +24,7 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
         maxits <- maxits - 1
         # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
         #                 control = drc::drmc(errorm=drm_error, useD=deriv))
-        fit <- .tryFit(formula, data=d, weights=weights, drm_error=drm_error)
+        fit <- .tryFit(formula, data=d, weights=d$weights, drm_error=drm_error)
         robustifyDrc(fit, formula, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }
