@@ -20,19 +20,19 @@
 #' pah <- filter(samps2, run == "PAH0503") # tib
 #' drcPhotoBooth(pah)
 #' @export
-drcPhotoBoothShine <- function(tib,
-                               analytes = c("Acetyl-CoA",
-                                            "Isobutyryl-CoA",
-                                            "Propionyl-CoA"),
-                               y_var = "conc_incell_uM",
-                               grouping_var = "tx_run",
-                               drm_error = FALSE,
-                               ec50 = TRUE,
-                               Hill = FALSE,
-                               up_asym = FALSE,
-                               low_asym = FALSE,
-                               cis = FALSE,
-                               robust = TRUE) {
+drcTableShine <- function(tib,
+                           analytes = c("Acetyl-CoA",
+                                        "Isobutyryl-CoA",
+                                        "Propionyl-CoA"),
+                           y_var = "conc_incell_uM",
+                           grouping_var = "tx_run",
+                           drm_error = FALSE,
+                           ec50 = TRUE,
+                           Hill = FALSE,
+                           up_asym = FALSE,
+                           low_asym = FALSE,
+                           cis = FALSE,
+                           robust = TRUE) {
   ## Filter
   tib %<>% filter(heavy == "TRUE")
   tib$curve_plot %<>% gsub("\\-CoA$", "", .)
