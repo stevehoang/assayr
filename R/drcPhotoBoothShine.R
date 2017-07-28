@@ -8,6 +8,7 @@
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior.
 #' @param grouping_var A character string representing the column used for grouping experiments.
 #' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
+#' @param deriv Logical. Use derivative in DRC estimation.
 #' @param ec50 Logical. Show EC50.
 #' @param ec50ci Logical. Show 95\% CI of EC50.
 #' @param Hill Logical. Show Hill coefficient.
@@ -31,6 +32,7 @@ drcPhotoBoothShine <- function(tib,
                                              "Propionyl" = c(0,65)),
                                grouping_var = "tx_run",
                                drm_error = FALSE,
+                               deriv = FALSE,
                                ec50 = TRUE,
                                ec50ci = FALSE,
                                Hill = FALSE,
@@ -71,7 +73,7 @@ drcPhotoBoothShine <- function(tib,
   form <- paste(y_var, "~", "tx_conc") %>% as.formula
 
   drs <- tib_dr %>% split(list(.[[grouping_var]], .$targ), drop = T) %>%
-    purrr::map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error)))
+    purrr::map(~ drc::drm(form, data = ., fct = drc::LL.4(), control = drc::drmc(errorm = drm_error, useD=T)))
 
   if (robust) {
     drs %<>% purrr::map(~ robustifyDrc(., form))

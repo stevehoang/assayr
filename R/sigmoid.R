@@ -5,11 +5,14 @@
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
 #' @param maxits Numeric value representing maximum number of iterations
 #' @param verbose Logical. If TRUE reports the manhattan distance for each iteration.
+#' @param deriv Logical. Use derivative in DRC estimation.
+#' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' robustifyDrc(fit, formula(fit))
 #' @export
-robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
+robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
+                         deriv=TRUE, drm_error=FALSE) {
     d <- fit$data
     ow <- fit$weights
     d$weights <- .biweightMean(resid(fit))
@@ -19,7 +22,8 @@ robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE) {
     }
     if (mdist > conv & maxits > 0) {
         maxits <- maxits - 1
-        fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4())
+        fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
+                        control = drc::drmc(errorm=drm_error, useD=deriv))
         robustifyDrc(fit, formula, conv=conv, maxits=maxits, verbose = verbose)
     }
     else { return(fit) }

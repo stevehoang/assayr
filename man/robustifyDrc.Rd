@@ -4,7 +4,8 @@
 \alias{robustifyDrc}
 \title{Make a robust DRC estimate based on Nguyen et al. 2014}
 \usage{
-robustifyDrc(fit, formula, conv = 0.01, maxits = 100, verbose = FALSE)
+robustifyDrc(fit, formula, conv = 0.01, maxits = 100, verbose = FALSE,
+  deriv = TRUE, drm_error = FALSE)
 }
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
@@ -16,6 +17,10 @@ robustifyDrc(fit, formula, conv = 0.01, maxits = 100, verbose = FALSE)
 \item{maxits}{Numeric value representing maximum number of iterations}
 
 \item{verbose}{Logical. If TRUE reports the manhattan distance for each iteration.}
+
+\item{deriv}{Logical. Use derivative in DRC estimation.}
+
+\item{drm_error}{Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)}
 }
 \description{
 Make a robust DRC estimate based on Nguyen et al. 2014

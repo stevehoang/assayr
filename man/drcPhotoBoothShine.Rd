@@ -40,6 +40,8 @@ drcPhotoBoothShine(tib, analytes = c("Acetyl-CoA", "Isobutyryl-CoA",
 
 \item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior.}
 
+\item{deriv}{Logical. Use derivative in DRC estimation.}
+
 \item{ec50ci}{Logical. Show 95\% CI of EC50.}
 
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
