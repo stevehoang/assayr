@@ -75,7 +75,7 @@ drcPhotoBoothShine <- function(tib,
     purrr::map(~ .tryFit(form, data = ., w=rep(1, nrow(.), drm_error=drm_error)))
 
   if (robust) {
-    drs %<>% purrr::map(~ robustifyDrc(., form))
+    drs %<>% purrr::map(~ robustifyDrc(.))
   }
 
   ranges <- tib_dr %>% split(list(.[[grouping_var]], .$curve_plot), drop = T) %>%

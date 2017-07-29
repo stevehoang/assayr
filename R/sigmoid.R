@@ -1,7 +1,6 @@
 #' Make a robust DRC estimate based on Nguyen et al. 2014
 #'
 #' @param fit An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.
-#' @param formula The formula of the fit.
 #' @param conv Numeric value representing the convergence criterion (manhattan distance between weight vectors)
 #' @param maxits Numeric value representing maximum number of iterations
 #' @param verbose Logical. If TRUE reports the manhattan distance for each iteration.
@@ -14,7 +13,7 @@
 robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
                          deriv=TRUE, drm_error=FALSE) {
   form <- formula(fit)
-  envrionment(form) <- envrionment()
+  environment(form) <- environment()
   d <- fit$data
   ow <- fit$weights
   d$weights <- .biweightMean(resid(fit))
@@ -26,7 +25,7 @@ robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
       maxits <- maxits - 1
       # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
       #                 control = drc::drmc(errorm=drm_error, useD=deriv))
-      fit <- .tryFit(form, data=d, weights=d$weights, drm_error=drm_error)
+      fit <- .tryFit(form, data=d, w=d$weights, drm_error=drm_error)
       robustifyDrc(fit, conv=conv, maxits=maxits, verbose = verbose)
   }
   else { return(fit) }

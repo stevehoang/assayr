@@ -4,13 +4,11 @@
 \alias{robustifyDrc}
 \title{Make a robust DRC estimate based on Nguyen et al. 2014}
 \usage{
-robustifyDrc(fit, formula, conv = 0.01, maxits = 100, verbose = FALSE,
+robustifyDrc(fit, conv = 0.01, maxits = 100, verbose = FALSE,
   deriv = TRUE, drm_error = FALSE)
 }
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
-
-\item{formula}{The formula of the fit.}
 
 \item{conv}{Numeric value representing the convergence criterion (manhattan distance between weight vectors)}
 
