@@ -25,5 +25,5 @@ Make a robust DRC estimate based on Nguyen et al. 2014
 }
 \examples{
 fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
-robustifyDrc(fit, formula(fit))
+robustifyDrc(fit)
 }

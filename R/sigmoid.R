@@ -8,7 +8,7 @@
 #' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
-#' robustifyDrc(fit, formula(fit))
+#' robustifyDrc(fit)
 #' @export
 robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
                          deriv=TRUE, drm_error=FALSE) {
