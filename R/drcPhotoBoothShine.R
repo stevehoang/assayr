@@ -71,9 +71,8 @@ drcPhotoBoothShine <- function(tib,
   # Calculate Dose Response
   form <- paste(y_var, "~", "tx_conc") %>% as.formula
 
-
   drs <- tib_dr %>% split(list(.[[grouping_var]], .$targ), drop = T) %>%
-    purrr::map(~ .tryFit(form, data = ., drm_error=drm_error))
+    purrr::map(~ .tryFit(form, data = ., w=rep(1, nrow(.), drm_error=drm_error)))
 
   if (robust) {
     drs %<>% purrr::map(~ robustifyDrc(., form))

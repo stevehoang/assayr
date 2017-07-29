@@ -11,33 +11,36 @@
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
 #' robustifyDrc(fit, formula(fit))
 #' @export
-robustifyDrc <- function(fit, formula, conv=0.01, maxits=100, verbose=FALSE,
+robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
                          deriv=TRUE, drm_error=FALSE) {
-    d <- fit$data
-    ow <- fit$weights
-    d$weights <- .biweightMean(resid(fit))
-    mdist <- sum(abs(ow - d$weights))
-    if (verbose) {
-      print(paste0("Manhattan distance = ", mdist))
-    }
-    if (mdist > conv & maxits > 0) {
-        maxits <- maxits - 1
-        # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
-        #                 control = drc::drmc(errorm=drm_error, useD=deriv))
-        fit <- .tryFit(formula, data=d, weights=d$weights, drm_error=drm_error)
-        robustifyDrc(fit, formula, conv=conv, maxits=maxits, verbose = verbose)
-    }
-    else { return(fit) }
+  form <- formula(fit)
+  envrionment(form) <- envrionment()
+  d <- fit$data
+  ow <- fit$weights
+  d$weights <- .biweightMean(resid(fit))
+  mdist <- sum(abs(ow - d$weights))
+  if (verbose) {
+    print(paste0("Manhattan distance = ", mdist))
+  }
+  if (mdist > conv & maxits > 0) {
+      maxits <- maxits - 1
+      # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
+      #                 control = drc::drmc(errorm=drm_error, useD=deriv))
+      fit <- .tryFit(form, data=d, weights=d$weights, drm_error=drm_error)
+      robustifyDrc(fit, conv=conv, maxits=maxits, verbose = verbose)
+  }
+  else { return(fit) }
 }
 
-.tryFit <- function(form, data, weights = NULL, drm_error=FALSE) {
-  if (is.null(weights)) {
-    weights <- rep(1, nrow(data))
+.tryFit <- function(form, data, w=NULL, drm_error=FALSE) {
+  if (is.null(w)) {
+    w <- rep(1, nrow(data))
   }
-  fit <- drc::drm(form, data = data, weights = weights, fct = drc::LL.4(),
+  environment(form) <- environment()
+  fit <- drc::drm(form, data = data, weights = w, fct = drc::LL.4(),
                   control = drc::drmc(errorm = drm_error))
   if (class(fit) == "list") {
-    fit <- drc::drm(form, data = data, weights = weights, fct = drc::LL.4(),
+    fit <- drc::drm(form, data = data, weights = w, fct = drc::LL.4(),
                     control = drc::drmc(errorm = drm_error, useD = TRUE))
     warning("just kidding, it worked")
   }
