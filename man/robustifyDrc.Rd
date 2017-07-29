@@ -4,7 +4,7 @@
 \alias{robustifyDrc}
 \title{Make a robust DRC estimate based on Nguyen et al. 2014}
 \usage{
-robustifyDrc(fit, conv = 0.01, maxits = 100, verbose = FALSE,
+robustifyDrc(fit, form, conv = 0.01, maxits = 100, verbose = FALSE,
   deriv = TRUE, drm_error = FALSE)
 }
 \arguments{
@@ -25,5 +25,5 @@ Make a robust DRC estimate based on Nguyen et al. 2014
 }
 \examples{
 fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
-robustifyDrc(fit)
+robustifyDrc(fit, disp~wt)
 }

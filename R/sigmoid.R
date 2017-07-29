@@ -8,11 +8,10 @@
 #' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
 #' @examples
 #' fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
-#' robustifyDrc(fit)
+#' robustifyDrc(fit, disp~wt)
 #' @export
-robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
+robustifyDrc <- function(fit, form, conv=0.01, maxits=100, verbose=FALSE,
                          deriv=TRUE, drm_error=FALSE) {
-  form <- formula(fit)
   environment(form) <- environment()
   d <- fit$data
   ow <- fit$weights
@@ -26,7 +25,7 @@ robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
       # fit <- drc::drm(formula, weights=weights, data=d, fct=drc::LL.4(),
       #                 control = drc::drmc(errorm=drm_error, useD=deriv))
       fit <- .tryFit(form, data=d, w=d$weights, drm_error=drm_error)
-      robustifyDrc(fit, conv=conv, maxits=maxits, verbose = verbose)
+      robustifyDrc(fit, form, conv=conv, maxits=maxits, verbose = verbose)
   }
   else { return(fit) }
 }
@@ -57,6 +56,7 @@ robustifyDrc <- function(fit, conv=0.01, maxits=100, verbose=FALSE,
 robusty <- function(fit, conv=0.01, maxits=100, verbose = TRUE) {
   mdist <- 1
   of <- as.formula(fit, globalenv())
+  print(identical(globalenv(), environment()))
 
   while ( maxits > 0 ) {
 
