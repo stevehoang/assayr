@@ -42,8 +42,8 @@ drcPhotoBoothShine <- function(tib,
                                robust = TRUE) {
   ## Filter
   tib %<>% filter(heavy == "TRUE")
-  tib$curve_plot %<>% gsub("\\-CoA$", "", .)
-  analytes %<>% gsub("\\-CoA$", "", .)
+  tib$curve_plot %<>% gsub("-CoA$", "", .)
+  analytes %<>% gsub("-CoA$", "", .)
   tib_dr <- dplyr::filter(tib, curve_plot %in% analytes)
 
   ## Input Handling
@@ -52,7 +52,7 @@ drcPhotoBoothShine <- function(tib,
     tib_dr$tx_conc %<>% as.character() %>%
       as.numeric()
   }
-  
+
   tib_dr %<>% dplyr::filter(tx_conc <= x_max)
 
   if (min(tib_dr$tx_conc) == 0) {

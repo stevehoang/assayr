@@ -37,8 +37,8 @@ drcTableShine <- function(tib,
                            robust = TRUE) {
   ## Filter
   tib %<>% dplyr::filter(heavy == "TRUE")
-  tib$curve_plot %<>% gsub("\\-CoA$", "", .)
-  analytes %<>% gsub("\\-CoA$", "", .)
+  tib$curve_plot %<>% gsub("-CoA$", "", .)
+  analytes %<>% gsub("-CoA$", "", .)
   tib_dr <- dplyr::filter(tib, curve_plot %in% analytes)
 
   ## Input Handling
