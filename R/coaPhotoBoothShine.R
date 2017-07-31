@@ -75,7 +75,7 @@ coaPhotoBoothShine <- function(tib,
   tib$tx_conc %<>% as.character() %>%
     as.numeric()
 
-  tib_dr %<>% dplyr::filter(tx_conc <= x_max)
+  tib %<>% dplyr::filter(tx_conc <= x_max)
 
   levs <- tib$tx_conc %>%
     sort() %>%
