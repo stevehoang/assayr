@@ -152,7 +152,7 @@ drcTableShine <- function(tib,
   if (!ec50) {
     tab %<>% dplyr::select(-dplyr::matches("EC50"))
   }
-  if (!hill) {
+  if (!Hill) {
     tab %<>% dplyr::select(-dplyr::matches("Hill"))
   }
   if (!up_asym) {
