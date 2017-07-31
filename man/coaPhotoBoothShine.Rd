@@ -7,7 +7,7 @@
 coaPhotoBoothShine(tib, y_var = "conc_incell_uM", grouping_var = "tx_run",
   analytes = c("Acetyl-CoA", "Isobutyryl-CoA", "Propionyl-CoA"),
   species = "both", limits = list(Acetyl = c(0, 55), Isobutyryl = c(0, 45),
-  Propionyl = c(0, 65)))
+  Propionyl = c(0, 65)), x_max = Inf)
 }
 \arguments{
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
@@ -19,6 +19,8 @@ coaPhotoBoothShine(tib, y_var = "conc_incell_uM", grouping_var = "tx_run",
 \item{species}{A character describing which analyte to plot. Accepts "both" (default), "C13", or "C12".}
 
 \item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.}
+
+\item{x_max}{Numeric. The highest dose considered in the calculation.}
 }
 \value{
 A cowplot with analytes as rows and treatments as columns

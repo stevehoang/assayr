@@ -5,6 +5,7 @@
 #' @param y_var A character with the column name to be used for the y-axis.
 #' @param species A character describing which analyte to plot. Accepts "both" (default), "C13", or "C12".
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.
+#' @param x_max Numeric. The highest dose considered in the calculation.
 #' @return A cowplot with analytes as rows and treatments as columns
 #' @examples
 #' pah <- filter(samps2, run == "PAH0503") # tib
@@ -19,7 +20,8 @@ coaPhotoBoothShine <- function(tib,
                                species = "both",
                                limits = list("Acetyl" = c(0, 55),
                                              "Isobutyryl" = c(0,45),
-                                             "Propionyl" = c(0,65) )) {
+                                             "Propionyl" = c(0,65)),
+                               x_max = Inf) {
 
 
   # bc of bug in theme_void() https://github.com/tidyverse/ggplot2/issues/2058
@@ -70,9 +72,12 @@ coaPhotoBoothShine <- function(tib,
   cust_fill <- c("blue", "grey") %>% set_names(c("C13", "C12"))
   cust_color <- c("navyblue", "grey20") %>% set_names(c("C13", "C12"))
 
+  tib$tx_conc %<>% as.character() %>%
+    as.numeric()
+
+  tib_dr %<>% dplyr::filter(tx_conc <= x_max)
+
   levs <- tib$tx_conc %>%
-    as.character() %>%
-    as.numeric() %>%
     sort() %>%
     unique()
 

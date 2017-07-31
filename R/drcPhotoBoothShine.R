@@ -6,6 +6,7 @@
 #' @param analytes A character vector with a subset of \code{unique(tib$targ)} for the target/analytes to be plotted.
 #' @param y_var A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior.
+#' @param x_max Numeric. The highest dose considered in the calculation.
 #' @param grouping_var A character string representing the column used for grouping experiments.
 #' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
 #' @param deriv Logical. Use derivative in DRC estimation.
@@ -30,6 +31,7 @@ drcPhotoBoothShine <- function(tib,
                                limits = list("Acetyl" = c(0,55),
                                              "Isobutyryl" = c(0,45),
                                              "Propionyl" = c(0,65)),
+                               x_max = Inf,
                                grouping_var = "tx_run",
                                drm_error = FALSE,
                                ec50 = TRUE,
@@ -50,6 +52,8 @@ drcPhotoBoothShine <- function(tib,
     tib_dr$tx_conc %<>% as.character() %>%
       as.numeric()
   }
+  
+  tib_dr %<>% dplyr::filter(tx_conc <= x_max)
 
   if (min(tib_dr$tx_conc) == 0) {
     tib_dr %<>% split(.[[grouping_var]]) %>%

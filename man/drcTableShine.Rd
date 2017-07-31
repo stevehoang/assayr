@@ -5,14 +5,16 @@
 \title{CoA DRC Tables}
 \usage{
 drcTableShine(tib, analytes = c("Acetyl-CoA", "Isobutyryl-CoA",
-  "Propionyl-CoA"), y_var = "conc_incell_uM", grouping_var = "tx_run",
-  drm_error = FALSE, ec50 = TRUE, Hill = FALSE, up_asym = FALSE,
-  low_asym = FALSE, cis = FALSE, robust = TRUE)
+  "Propionyl-CoA"), x_max = Inf, y_var = "conc_incell_uM",
+  grouping_var = "tx_run", drm_error = FALSE, ec50 = TRUE, Hill = FALSE,
+  up_asym = FALSE, low_asym = FALSE, cis = FALSE, robust = TRUE)
 }
 \arguments{
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
 
 \item{analytes}{A character vector of the target/analytes to be plotted.}
+
+\item{x_max}{Numeric. The highest dose considered in the calculation.}
 
 \item{y_var}{A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.}
 
@@ -33,7 +35,7 @@ drcTableShine(tib, analytes = c("Acetyl-CoA", "Isobutyryl-CoA",
 \item{robust}{Logical. Use robust curve estimation.}
 }
 \value{
-A plot object.
+A data frame.
 }
 \description{
 Generate a DRC stats table.

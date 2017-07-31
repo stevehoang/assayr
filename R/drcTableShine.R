@@ -5,6 +5,7 @@
 #' @param tib A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).
 #' @param analytes A character vector of the target/analytes to be plotted.
 #' @param y_var A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.
+#' @param x_max Numeric. The highest dose considered in the calculation.
 #' @param grouping_var A character string representing the column used for grouping experiments.
 #' @param drm_error Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)
 #' @param ec50 Logical. Show EC50.
@@ -24,6 +25,7 @@ drcTableShine <- function(tib,
                            analytes = c("Acetyl-CoA",
                                         "Isobutyryl-CoA",
                                         "Propionyl-CoA"),
+                           x_max = Inf,
                            y_var = "conc_incell_uM",
                            grouping_var = "tx_run",
                            drm_error = FALSE,
@@ -45,6 +47,7 @@ drcTableShine <- function(tib,
     tib_dr$tx_conc %<>% as.character() %>%
       as.numeric()
   }
+  tib_dr %<>% dplyr::filter(tx_conc <= x_max)
 
   if (min(tib_dr$tx_conc) == 0) {
     tib_dr %<>% split(.[[grouping_var]]) %>%
