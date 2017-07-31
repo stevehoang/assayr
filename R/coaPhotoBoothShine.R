@@ -30,7 +30,7 @@ coaPhotoBoothShine <- function(tib,
   analytes %<>% gsub("-CoA$", "", .)
   tib$curve_plot %<>% gsub("-CoA$", "", .)
   tib %<>% dplyr::filter(!c_bool)
-  tib <- dplyr::filter(tib, curve_plot %in% analytes)
+  tib <- dplyr::filter(tib, tolower(curve_plot) %in% tolower(analytes))
 
   if(!is.finite(x_max)) {
     x_max <- Inf
