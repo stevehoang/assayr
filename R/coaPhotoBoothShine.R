@@ -28,8 +28,8 @@ coaPhotoBoothShine <- function(tib,
   # ggplot2::theme_set(ggplot2::theme_bw())
   analytes %<>% gsub("-CoA$", "", .)
   tib$curve_plot %<>% gsub("-CoA$", "", .)
-  tib %<>% filter(!c_bool)
-  tib %<>% filter(curve_plot %in% analytes)
+  tib %<>% dplyr::filter(!c_bool)
+  tib <- dplyr::filter(tib, curve_plot %in% analytes)
 
   if(!is.finite(x_max)) {
     x_max <- Inf
@@ -44,10 +44,10 @@ coaPhotoBoothShine <- function(tib,
   }
 
   if (species == "C13") {
-    tib %<>% filter(heavy == T)
+    tib %<>% dplyr::filter(heavy == T)
   }
   if (species == "C12") {
-    tib %<>% filter(heavy == F)
+    tib %<>% dplyr::filter(heavy == F)
   }
 
   # Plot
