@@ -3,7 +3,8 @@
 #' @param tib A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).
 #' @param grouping_var A character string specifying the column in \code{tib} that specifies the experimental grouping.
 #' @param y_var A character with the column name to be used for the y-axis.
-#' @param species A character describing which analyte to plot. Accepts "both" (default), "C13", or "C12".
+#' @param analytes A character vector providing the analytes to be plotted.
+#' @param species A character describing which labeled analytes to plot. Accepts "both" (default), "C13", or "C12".
 #' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.
 #' @param x_max Numeric. The highest dose considered in the calculation.
 #' @return A cowplot with analytes as rows and treatments as columns

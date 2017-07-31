@@ -16,7 +16,9 @@ coaPhotoBoothShine(tib, y_var = "conc_incell_uM", grouping_var = "tx_run",
 
 \item{grouping_var}{A character string specifying the column in \code{tib} that specifies the experimental grouping.}
 
-\item{species}{A character describing which analyte to plot. Accepts "both" (default), "C13", or "C12".}
+\item{analytes}{A character vector providing the analytes to be plotted.}
+
+\item{species}{A character describing which labeled analytes to plot. Accepts "both" (default), "C13", or "C12".}
 
 \item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`.}
 
