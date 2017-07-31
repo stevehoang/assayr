@@ -31,6 +31,10 @@ coaPhotoBoothShine <- function(tib,
   tib %<>% filter(!c_bool)
   tib %<>% filter(curve_plot %in% analytes)
 
+  if(!is.finite(x_max)) {
+    x_max <- Inf
+  }
+
   if (!is.factor(tib$curve_plot)) {
     tib$curve_plot %<>% as.factor()
   }

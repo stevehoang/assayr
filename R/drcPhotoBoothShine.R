@@ -53,6 +53,10 @@ drcPhotoBoothShine <- function(tib,
       as.numeric()
   }
 
+  if(!is.finite(x_max)) {
+    x_max <- Inf
+  }
+
   tib_dr %<>% dplyr::filter(tx_conc <= x_max)
 
   if (min(tib_dr$tx_conc) == 0) {
