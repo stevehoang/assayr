@@ -14,7 +14,7 @@
 #' @param cis Logical. Show 95\% CI of stats.
 #' @param robust Logical. Use robust curve estimation.
 #'
-#' @return A plot object.
+#' @return A data frame.
 #'
 #' @examples
 #' pah <- filter(samps2, run == "PAH0503") # tib
@@ -34,7 +34,7 @@ drcTableShine <- function(tib,
                            cis = FALSE,
                            robust = TRUE) {
   ## Filter
-  tib %<>% filter(heavy == "TRUE")
+  tib %<>% dplyr::filter(heavy == "TRUE")
   tib$curve_plot %<>% gsub("\\-CoA$", "", .)
   analytes %<>% gsub("\\-CoA$", "", .)
   tib_dr <- dplyr::filter(tib, curve_plot %in% analytes)
