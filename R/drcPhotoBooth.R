@@ -91,7 +91,7 @@ drcPhotoBooth <- function(dr_tib,
                      aes(label = paste0("Coef [lwr]^upr:", est, " [", lwr, "]","^", upr), x = est),
                      y = Inf, vjust = 1, parse = T, alpha = .5) +
         ggplot2::scale_x_log10(breaks = drcBreaks, limits = c(NA, max(dr_tib2$tx_conc))) +
-        ggplot2::facet_wrap(~ curve_plot, scales = "free") +
+        ggplot2::facet_wrap(~ targ, scales = "free") +
         ggplot2::labs(title = NULL,
                       y = paste0("[", t, "] ", ifelse(y_var == "conc_incell_uM", "uM", "nM")),
                       x = NULL) +
