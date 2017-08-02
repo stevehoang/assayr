@@ -96,10 +96,10 @@ coaPhotoBoothShine <- function(tib,
     as.numeric() %>%
     factor(levels = levs)
 
-  ylabs <- hash::hash(key = c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
-                      values = c("intracellular concentration (uM)",
-                                 "analyte to acetyl-CoA ratio (log2)",
-                                 "sample concentration (nM)"))
+  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
+                      c("intracellular concentration (uM)",
+                        "analyte to acetyl-CoA ratio (log2)",
+                        "sample concentration (nM)"))
 
   p <- ggplot2::ggplot(tib, ggplot2::aes_(x = ~tx_conc, y=as.name(y_var))) +
     # ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
