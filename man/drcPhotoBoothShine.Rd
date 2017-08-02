@@ -5,8 +5,7 @@
 \title{CoA DRC Curve Plots}
 \usage{
 drcPhotoBoothShine(tib, analytes = c("Acetyl-CoA", "Isobutyryl-CoA",
-  "Propionyl-CoA"), y_var = "conc_incell_uM", limits = list(Acetyl = c(0,
-  55), Isobutyryl = c(0, 45), Propionyl = c(0, 65)), x_max = Inf,
+  "Propionyl-CoA"), y_var = "conc_incell_uM", limits = NULL, x_max = Inf,
   grouping_var = "tx_run", drm_error = FALSE, ec50 = TRUE,
   ec50ci = FALSE, Hill = FALSE, up_asym = FALSE, low_asym = FALSE,
   robust = TRUE)
