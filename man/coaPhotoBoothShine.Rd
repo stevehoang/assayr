@@ -6,8 +6,7 @@
 \usage{
 coaPhotoBoothShine(tib, y_var = "conc_incell_uM", grouping_var = "tx_run",
   analytes = c("Acetyl-CoA", "Isobutyryl-CoA", "Propionyl-CoA"),
-  species = "both", limits = list(Acetyl = c(0, 55), Isobutyryl = c(0, 45),
-  Propionyl = c(0, 65)), x_max = Inf)
+  species = "both", limits = NULL, x_max = Inf)
 }
 \arguments{
 \item{tib}{A tibble or data.frame with PureHoney data including vars(tx_cmpd, curve_plot).}
