@@ -7,7 +7,7 @@ normToAcetyl <- function(x) {
   acoa <- dplyr::filter(x, targ == "12C-Acetyl") %>%
     dplyr::select(plate_run, sample_id, conc_corrected) %>%
     dplyr::rename(acoa_conc = conc_corrected)
-  other <- dplyr::filter(x, targ == "12C-Acetyl")
+  other <- dplyr::filter(x, targ != "12C-Acetyl")
   res <- merge(other, acoa) %>%
     dplyr::mutate(to_acoa_log2_ratio = log2(conc_corrected / acoa_conc)) %>%
     dplyr::select(-acoa_conc)
