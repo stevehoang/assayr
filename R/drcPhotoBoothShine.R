@@ -138,8 +138,15 @@ drcPhotoBoothShine <- function(tib,
 
   # Plot
   if (is.null(limits)) {
-    limits = list("Isobutyryl" = c(0, max(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
-                  "Propionyl" = c(0, max(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]])))
+    if (y_var == "to_acoa_log2_ratio") {
+      limits = list("Isobutyryl" = c(min(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]]),
+                                     max(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
+                    "Propionyl" = c(min(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]]),
+                                    max(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]])))
+    } else {
+      limits = list("Isobutyryl" = c(0, max(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
+                    "Propionyl" = c(0, max(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]])))
+    }
   }
 
   cp <- dplyr::select(tib_dr, tx_run, curve_plot) %>%
@@ -166,7 +173,7 @@ drcPhotoBoothShine <- function(tib,
     dplyr::filter(ys < maxes) %>%
     dplyr::filter(ys > mins)
 
-  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
+  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_log2_ratio", "conc_corrected"),
                       c("intracellular concentration (uM)",
                         "analyte to acetyl-CoA ratio (log2)",
                         "sample concentration (nM)"))

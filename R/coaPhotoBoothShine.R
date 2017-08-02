@@ -52,9 +52,18 @@ coaPhotoBoothShine <- function(tib,
 
   # Plot
   if (is.null(limits)) {
-    limits = list("Acetyl" = c(0, max(dplyr::filter(tib, curve_plot == "Acetyl")[[y_var]])),
-                  "Isobutyryl" = c(0, max(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
-                  "Propionyl" = c(0, max(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]])))
+    if (y_var == "to_acoa_log2_ratio") {
+      limits = list("Acetyl" = c(min(dplyr::filter(tib, curve_plot == "Acetyl")[[y_var]]),
+                                 max(dplyr::filter(tib, curve_plot == "Acetyl")[[y_var]])),
+                    "Isobutyryl" = c(min(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]]),
+                                     max(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
+                    "Propionyl" = c(min(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]]),
+                                    max(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]])))
+    } else {
+      limits = list("Acetyl" = c(0, max(dplyr::filter(tib, curve_plot == "Acetyl")[[y_var]])),
+                    "Isobutyryl" = c(0, max(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
+                    "Propionyl" = c(0, max(dplyr::filter(tib, curve_plot == "Propionyl")[[y_var]])))
+    }
   }
 
   cp <- dplyr::select(tib, tx_run, curve_plot) %>%
@@ -96,7 +105,7 @@ coaPhotoBoothShine <- function(tib,
     as.numeric() %>%
     factor(levels = levs)
 
-  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
+  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_log2_ratio", "conc_corrected"),
                       c("intracellular concentration (uM)",
                         "analyte to acetyl-CoA ratio (log2)",
                         "sample concentration (nM)"))
