@@ -19,12 +19,10 @@ coaPhotoBoothShine <- function(tib,
                                             "Isobutyryl-CoA",
                                             "Propionyl-CoA"),
                                species = "both",
-                               limits = list("Acetyl" = c(0, 55),
-                                             "Isobutyryl" = c(0,45),
-                                             "Propionyl" = c(0,65)),
+                               limits = NULL,
                                x_max = Inf) {
 
-  if (y_var == "to_acoa_ratio") {
+  if (y_var == "to_acoa_log2_ratio") {
     tib <- normToAcetyl(tib)
   }
 
@@ -53,6 +51,12 @@ coaPhotoBoothShine <- function(tib,
   }
 
   # Plot
+  if (is.null(limits)) {
+    limits = list("Acetyl" = c(0, max(filter(tib), curve_plot == "Acetyl")[[y_var]]),
+                  "Isobutyryl" = c(0, max(filter(tib), curve_plot == "Isobutyryl")[[y_var]]),
+                  "Propionyl" = c(0, max(filter(tib), curve_plot == "Propionyl")[[y_var]]))
+  }
+
   cp <- dplyr::select(tib, tx_run, curve_plot) %>%
     unique()
   lims <- tidyr::gather(as.data.frame(limits))
@@ -92,6 +96,11 @@ coaPhotoBoothShine <- function(tib,
     as.numeric() %>%
     factor(levels = levs)
 
+  ylabs <- hash::hash(key = c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
+                      values = c("intracellular concentration (uM)",
+                                 "analyte to acetyl-CoA ratio (log2)",
+                                 "sample concentration (nM)"))
+
   p <- ggplot2::ggplot(tib, ggplot2::aes_(x = ~tx_conc, y=as.name(y_var))) +
     # ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                            # labels = scales::comma) +
@@ -109,7 +118,7 @@ coaPhotoBoothShine <- function(tib,
     assayr::theme_assayr() +
     ggplot2::theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust=1)) +
     ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y") +
-    ggplot2::labs(y = "intracellular concentration (uM)",
+    ggplot2::labs(y = ylabs[y_var],
                   x = "compound concentration (uM)",
                   color = NULL,
                   fill = NULL)

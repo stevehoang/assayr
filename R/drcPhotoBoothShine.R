@@ -28,9 +28,7 @@ drcPhotoBoothShine <- function(tib,
                                             "Isobutyryl-CoA",
                                             "Propionyl-CoA"),
                                y_var = "conc_incell_uM",
-                               limits = list("Acetyl" = c(0,55),
-                                             "Isobutyryl" = c(0,45),
-                                             "Propionyl" = c(0,65)),
+                               limits = NULL,
                                x_max = Inf,
                                grouping_var = "tx_run",
                                drm_error = FALSE,
@@ -41,7 +39,7 @@ drcPhotoBoothShine <- function(tib,
                                low_asym = FALSE,
                                robust = TRUE) {
 
-  if (y_var == "to_acoa_ratio") {
+  if (y_var == "to_acoa_log2_ratio") {
     tib <- normToAcetyl(tib)
   }
   ## Filter
@@ -139,6 +137,12 @@ drcPhotoBoothShine <- function(tib,
   }
 
   # Plot
+  if (is.null(limits)) {
+    limits = list("Acetyl" = c(0, max(filter(tib), curve_plot == "Acetyl")[[y_var]]),
+                  "Isobutyryl" = c(0, max(filter(tib), curve_plot == "Isobutyryl")[[y_var]]),
+                  "Propionyl" = c(0, max(filter(tib), curve_plot == "Propionyl")[[y_var]]))
+  }
+
   cp <- dplyr::select(tib_dr, tx_run, curve_plot) %>%
     unique()
   lims <- tidyr::gather(as.data.frame(limits))
@@ -163,6 +167,11 @@ drcPhotoBoothShine <- function(tib,
     dplyr::filter(ys < maxes) %>%
     dplyr::filter(ys > mins)
 
+  ylabs <- hash::hash(key = c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
+                      values = c("intracellular concentration (uM)",
+                                 "analyte to acetyl-CoA ratio (log2)",
+                                 "sample concentration (nM)"))
+
   p <- ggplot2::ggplot(tib_dr, ggplot2::aes_(x = ~tx_conc, y = as.name(y_var))) +
     ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                   labels = scales::comma) +
@@ -172,7 +181,7 @@ drcPhotoBoothShine <- function(tib,
     ggplot2::geom_blank(ggplot2::aes(x=NULL), data = lims) +
     assayr::theme_assayr() +
     ggplot2::theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust=1)) +
-    ggplot2::labs(y = "intracellular concentration (uM)",
+    ggplot2::labs(y = ylabs[y_var],
          x = "compound concentration (uM)") +
     ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y")
 
