@@ -118,7 +118,7 @@ coaPhotoBoothShine <- function(tib,
     assayr::theme_assayr() +
     ggplot2::theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust=1)) +
     ggplot2::facet_grid(curve_plot ~ tx_run, scales = "free_y") +
-    ggplot2::labs(y = ylabs[y_var],
+    ggplot2::labs(y = ylabs[[y_var]],
                   x = "compound concentration (uM)",
                   color = NULL,
                   fill = NULL)
