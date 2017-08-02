@@ -35,6 +35,10 @@ drcTableShine <- function(tib,
                            low_asym = FALSE,
                            cis = FALSE,
                            robust = TRUE) {
+
+  if (y_var == "to_acoa_ratio") {
+    tib <- normToAcetyl(tib)
+  }
   ## Filter
   tib %<>% dplyr::filter(heavy == "TRUE")
   tib$curve_plot %<>% gsub("-CoA$", "", .)

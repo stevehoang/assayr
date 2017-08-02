@@ -40,6 +40,10 @@ drcPhotoBoothShine <- function(tib,
                                up_asym = FALSE,
                                low_asym = FALSE,
                                robust = TRUE) {
+
+  if (y_var == "to_acoa_ratio") {
+    tib <- normToAcetyl(tib)
+  }
   ## Filter
   tib %<>% dplyr::filter(heavy == "TRUE")
   tib$curve_plot %<>% gsub("-CoA$", "", .)
