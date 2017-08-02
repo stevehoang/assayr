@@ -138,8 +138,7 @@ drcPhotoBoothShine <- function(tib,
 
   # Plot
   if (is.null(limits)) {
-    limits = list("Acetyl" = c(0, max(filter(tib, curve_plot == "Acetyl")[[y_var]])),
-                  "Isobutyryl" = c(0, max(filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
+    limits = list("Isobutyryl" = c(0, max(filter(tib, curve_plot == "Isobutyryl")[[y_var]])),
                   "Propionyl" = c(0, max(filter(tib, curve_plot == "Propionyl")[[y_var]])))
   }
 
