@@ -22,7 +22,7 @@ coaPhotoBoothShine <- function(tib,
                                limits = NULL,
                                x_max = Inf) {
 
-  if (y_var == "to_acoa_log2_ratio") {
+  if (y_var == "to_acoa_ratio") {
     tib <- normToAcetyl(tib)
   }
 
@@ -52,7 +52,7 @@ coaPhotoBoothShine <- function(tib,
 
   # Plot
   if (is.null(limits)) {
-    if (y_var == "to_acoa_log2_ratio") {
+    if (y_var == "to_acoa_ratio") {
       limits = list("Acetyl" = c(min(dplyr::filter(tib, curve_plot == "Acetyl")[[y_var]]),
                                  max(dplyr::filter(tib, curve_plot == "Acetyl")[[y_var]])),
                     "Isobutyryl" = c(min(dplyr::filter(tib, curve_plot == "Isobutyryl")[[y_var]]),
@@ -105,9 +105,9 @@ coaPhotoBoothShine <- function(tib,
     as.numeric() %>%
     factor(levels = levs)
 
-  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_log2_ratio", "conc_corrected"),
+  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
                       c("intracellular concentration (uM)",
-                        "analyte to acetyl-CoA ratio (log2)",
+                        "analyte to acetyl-CoA ratio",
                         "sample concentration (nM)"))
 
   p <- ggplot2::ggplot(tib, ggplot2::aes_(x = ~tx_conc, y=as.name(y_var))) +

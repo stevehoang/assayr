@@ -36,7 +36,7 @@ drcTableShine <- function(tib,
                            cis = FALSE,
                            robust = TRUE) {
 
-  if (y_var == "to_acoa_log2_ratio") {
+  if (y_var == "to_acoa_ratio") {
     tib <- normToAcetyl(tib)
   }
   ## Filter
