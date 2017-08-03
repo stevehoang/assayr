@@ -113,6 +113,7 @@ coaPhotoBoothShine <- function(tib,
   p <- ggplot2::ggplot(tib, ggplot2::aes_(x = ~tx_conc, y=as.name(y_var))) +
     # ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
                            # labels = scales::comma) +
+    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks()) +
     ggplot2::geom_point(size = 2, alpha = .5, position = ggplot2::position_dodge(width = .75),
                         aes(color = iso_label, fill = iso_label, group = iso_label), shape = 21) +
     ggplot2::stat_summary(geom = "bar", fun.y = mean, position = "dodge", width = .75, alpha = .5,
