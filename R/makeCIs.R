@@ -1,9 +1,8 @@
 #' @title Build plot-ready confidence intervals
 #' @description Wrapper for \code{confint()} that handles the output munging for models of class "lm", "lmerMod" and "lmerModLmerTest".
-#' @usage \code{makeCIs(mod, level = .95, all = FALSE)}
 #' @param mod A model object of class "lm", "lmerMod", or "lmerModLmerTest".
-#' @param level The confidence level required.
-#' @param all A logical indicating whether to return only the first fixed effect on RHS of the model formula (FALSE) or all fixed effects (TRUE).
+#' @param level Numeric (0-1). The confidence level required.
+#' @param all Logical. Return only the first fixed effect on RHS of the model formula (FALSE) or all fixed effects (TRUE).
 #' @examples
 #' mod <- lm(Sepal.Length ~ Species, data = iris)
 #' ci <- makeCIs(mod)
@@ -14,10 +13,10 @@
 makeCIs <- function(mod, level = .95, all = FALSE) {
     if (class(mod) == "lm") {
         if (attributes(mod$terms)$intercept == 1) {
-            stop("Consider model with intercept = 0 for easier plotting")
+            stop("Use model without intercept for easier plotting")
         }
         if (length(attributes(mod$terms)$term.labels) > 1 & all == T) {
-            warning("More than 1 predicting variable, watch for extra rows in return or set all = F")
+            warning("More than 1 predictor variable, watch for extra rows in return or set all = F")
         }
         ci <- as.data.frame(confint(mod, level = level))
         plot_pred <- attributes(mod$terms)$term.labels[1]
@@ -34,7 +33,7 @@ makeCIs <- function(mod, level = .95, all = FALSE) {
         num_sigma <- length(attributes(mod)$flist) + 1
         ci <- as.data.frame(confint(mod))[-(1:num_sigma),]
         if (rownames(ci)[1] == "(Intercept)") {
-            stop("Consider model with intercept = 0 for easier plotting")
+            stop("Use model without intercept for easier plotting")
         }
         ci$est <- nlme::fixef(mod)
         plot_pred <- colnames(attributes(mod)$frame)[2]

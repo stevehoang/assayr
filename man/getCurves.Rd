@@ -7,13 +7,13 @@
 getCurves(range, fit, logrange = TRUE, npoint = 100)
 }
 \arguments{
-\item{range}{A 2-element vector giving the x range.}
+\item{range}{A 2-element numeric vector giving the x range.}
 
 \item{fit}{An object of class drc fit with \code{drm()}.}
 
 \item{logrange}{Logical. If TRUE increments are in log space.}
 
-\item{npoint}{Number of increments in the x range.}
+\item{npoint}{Numeric. The number of increments in the x range.}
 }
 \value{
 A data frame of x and y values.
@@ -23,6 +23,6 @@ Generate y values in increments of a given x range.
 }
 \examples{
 fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())
-curve <- getCurves(c(2,5), fit, logrange = F)
+curve <- getCurves(range(mtcars$wt), fit, logrange = F)
 plot(ys~xs, data=curve)
 }

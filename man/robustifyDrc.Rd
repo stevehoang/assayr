@@ -2,26 +2,26 @@
 % Please edit documentation in R/sigmoid.R
 \name{robustifyDrc}
 \alias{robustifyDrc}
-\title{Make a robust DRC estimate based on Nguyen et al. 2014}
+\title{Make a robust DRC estimate using a method based on Nguyen et al. 2014}
 \usage{
 robustifyDrc(fit, form, conv = 0.01, maxits = 100, verbose = FALSE,
-  deriv = TRUE, drm_error = FALSE)
+  drm_error = FALSE)
 }
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()} and the argument \code{fct = LL.4()}.}
 
-\item{conv}{Numeric value representing the convergence criterion (manhattan distance between weight vectors)}
+\item{form}{A formula associated with the fit.}
 
-\item{maxits}{Numeric value representing maximum number of iterations}
+\item{conv}{Numeric value representing the convergence criterion (manhattan distance between weight vectors).}
+
+\item{maxits}{Numeric value representing maximum number of iterations.}
 
 \item{verbose}{Logical. If TRUE reports the manhattan distance for each iteration.}
-
-\item{deriv}{Logical. Use derivative in DRC estimation.}
 
 \item{drm_error}{Logical. Determines if drc() convergence failure results in a error (TRUE) or warning (FALSE)}
 }
 \description{
-Make a robust DRC estimate based on Nguyen et al. 2014
+Make a robust DRC estimate using a method based on Nguyen et al. 2014
 }
 \examples{
 fit <- drc::drm(disp~wt, data=mtcars, fct=drc::LL.4())

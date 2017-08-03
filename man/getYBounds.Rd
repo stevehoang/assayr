@@ -9,12 +9,12 @@ getYBounds(fit, high_x, low_x)
 \arguments{
 \item{fit}{An object of class drc fit with \code{drm()}.}
 
-\item{high_x}{The high end of the x range.}
+\item{high_x}{Numeric. The high end of the x range.}
 
-\item{low_x}{The low end of the x range.}
+\item{low_x}{Numeric. The low end of the x range.}
 }
 \value{
-A list reporting the top and bottom of the curve (toc, boc)
+A named vector reporting the top and bottom of the curve (toc, boc)
 }
 \description{
 Get the bottom and top of a log-logistic curve in a given x range.

@@ -4,14 +4,14 @@
 \alias{makeCIs}
 \title{Build plot-ready confidence intervals}
 \usage{
-\code{makeCIs(mod, level = .95, all = FALSE)}
+makeCIs(mod, level = 0.95, all = FALSE)
 }
 \arguments{
 \item{mod}{A model object of class "lm", "lmerMod", or "lmerModLmerTest".}
 
-\item{level}{The confidence level required.}
+\item{level}{Numeric (0-1). The confidence level required.}
 
-\item{all}{A logical indicating whether to return only the first fixed effect on RHS of the model formula (FALSE) or all fixed effects (TRUE).}
+\item{all}{Logical. Return only the first fixed effect on RHS of the model formula (FALSE) or all fixed effects (TRUE).}
 }
 \description{
 Wrapper for \code{confint()} that handles the output munging for models of class "lm", "lmerMod" and "lmerModLmerTest".
