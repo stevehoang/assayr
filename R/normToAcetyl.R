@@ -5,7 +5,7 @@
 #' @export
 normToAcetyl <- function(x) {
   acoa <- dplyr::filter(x, targ == "12C-Acetyl") %>%
-    dplyr::select(plate_run, sample_id, conc_corrected) %>%
+    dplyr::select(plate_id, sample_id, conc_corrected) %>%
     dplyr::rename(acoa_conc = conc_corrected)
   other <- dplyr::filter(x, targ != "12C-Acetyl")
   res <- merge(other, acoa) %>%
