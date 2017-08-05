@@ -2,21 +2,21 @@
 % Please edit documentation in R/readMolDev.R
 \name{readMolDev}
 \alias{readMolDev}
-\title{Molecular Devices Scope Output Reader}
+\title{Parser for Molecular Devices Output}
 \usage{
 readMolDev(scope_txt, measurements = c("stell  nuc count", "mac nuc count",
   "smaa area", "integrated int", "Nuclear Count", "Vesicle", "Cell Count"))
 }
 \arguments{
-\item{scope_txt}{A path to a .txt or .xlsx file with Molecular Devices scope output}
+\item{scope_txt}{A valid path to a .txt or .xlsx file with Molecular Devices scope output.}
 
-\item{measurements}{A character vector with the column names of measurments to extract. By default this is set to include all common measurements. Will drop measurements if they are not present.}
+\item{measurements}{A character vector with the column names of measurments to extract. Default is set to include all common measurements. Drops measurements if not available in scope_txt.}
 }
 \value{
-A tidy data frame with columns for plate, well, site and measurments
+A tibble with columns for plate, well, site, uid and all measurments available.
 }
 \description{
-High level wrapper that imports a Molecular Devices scope output file as a data frame. Uses specific document markers to extract relevant meta information, vunerable to changes in the scope output template.
+Convenience wrapper for importing a Molecular Devices scope output file as a data frame.
 }
 \examples{
 readMolDev("BGA0101-1 SMAA.txt")

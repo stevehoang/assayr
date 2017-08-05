@@ -1,8 +1,8 @@
-#' @title Molecular Devices Scope Output Reader
-#' @description High level wrapper that imports a Molecular Devices scope output file as a data frame. Uses specific document markers to extract relevant meta information, vunerable to changes in the scope output template.
-#' @param scope_txt A path to a .txt or .xlsx file with Molecular Devices scope output
-#' @param measurements A character vector with the column names of measurments to extract. By default this is set to include all common measurements. Will drop measurements if they are not present.
-#' @return A tidy data frame with columns for plate, well, site and measurments
+#' @title Parser for Molecular Devices Output
+#' @description Convenience wrapper for importing a Molecular Devices scope output file as a data frame. 
+#' @param scope_txt A valid path to a .txt or .xlsx file with Molecular Devices scope output.
+#' @param measurements A character vector with the column names of measurments to extract. Default is set to include all common measurements. Drops measurements if not available in scope_txt.
+#' @return A tibble with columns for plate, well, site, uid and all measurments available.
 #' @examples
 #' readMolDev("BGA0101-1 SMAA.txt")
 #' readMolDev("BGA0101-1 NileRed Nuc Count.xlsx")
@@ -75,6 +75,8 @@ readMolDev <- function(scope_txt, measurements = c("stell  nuc count", "mac nuc 
         gsub("^Site.*", "site", .) %>%
         gsub("^Nuclear.*", "nuc_count", .) %>%
         gsub("^Vesicle.*", "nile_int", .)
+    
+    plates %<>% as.tibble()
     
     return(plates)
 }
