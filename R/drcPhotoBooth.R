@@ -1,16 +1,16 @@
 #' DRC Curves in a standardized format
 #' 
 #' Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with \code{theme_assayr()}.
-#' This function is wrapper for the plot outputting and expects values to be already caluclated.
+#' This function is wrapper for the plot output and expects pre-caluclated data frames.
 #' 
-#' @param dr_tib A tibble with the target to be plotted
-#' @param coef_tib A tibble with the \code{drm()} fit coefficents.
-#' @param curves_tib A tibble with the estimate curve data from \code{getCurves()}
-#' @param y_var A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.
-#' @param grouping_var A character with the \code{tib} column name to be used for splitting the data into plots. Default is "tx_cmpd", "tx_total" may also be useful.
-#' @param output_path A character with valid file path. Default is current working directory.
+#' @param dr_tib A data frame or tibble with the targets to be plotted.
+#' @param coef_tib A data frame or tibble with the \code{drc::drm()} fit coefficents.
+#' @param curves_tib A data frame or tibble with the estimated curve data from \code{assayr::getCurves()}.
+#' @param y_var A character with the column name in \code{dr_tib} to be used for the y-axis. Default is "conc_incell_uM"; "conc_corrected" may also be useful.
+#' @param grouping_var A character with the column name in \code{dr_tib} to be used for splitting the data into plots. Default is "tx_cmpd", "tx_total" may also be useful.
+#' @param output_path A valid file path. Default is current working directory.
 #' @param new_folder A boolean whether to create a new folder automatically.
-#' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior. Not used currently.
+#' @param limits A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis limits for each \code{curve_plot}. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior. Not used currently.
 #' @return A directory of .png images, one for each in \code{unique(tib$tx_cmpd)}.
 #' @examples
 #' pah <- filter(samps2, run == "PAH0503") # tib
@@ -81,14 +81,14 @@ drcPhotoBooth <- function(dr_tib,
       curves_tib2 <- dplyr::filter(curves_tib1, targ == t)
       coef_tib2 <- dplyr::filter(coef_tib1, targ == t)
 
-      plots[[i]] <- ggplot2::ggplot(dr_tib2, ggplot2::aes(tx_conc, conc_incell_uM)) +
-        ggplot2::geom_line(data = curves_tib2, ggplot2::aes(xs, ys)) +
+      plots[[i]] <- ggplot2::ggplot(dr_tib2, ggplot2::aes_(~tx_conc, as.name(y_var))) +
+        ggplot2::geom_line(data = curves_tib2, ggplot2::aes_(~xs, ~ys)) +
         ggplot2::geom_point() +
           geom_vline(data = coef_tib2, aes(xintercept = est), linetype = 2) +
           geom_vline(data = coef_tib2, aes(xintercept = lwr), linetype = 3) +
           geom_vline(data = coef_tib2, aes(xintercept = upr), linetype = 3) +
           geom_label(data = coef_tib2,
-                     aes(label = paste0("Coef [lwr]^upr:", est, " [", lwr, "]","^", upr), x = est),
+                     aes(label = paste0(est, " [", lwr, "]","^", upr), x = est),
                      y = Inf, vjust = 1, parse = T, alpha = .5) +
         ggplot2::scale_x_log10(breaks = drcBreaks, limits = c(NA, max(dr_tib2$tx_conc))) +
         ggplot2::facet_wrap(~ targ, scales = "free") +

@@ -2,7 +2,7 @@
 # works on glht objects (ht) with flexible log base
 
 #' @export
-makeLogFCs <- function(ht, base = 2) {
+makeLogFCs <- function(ht, base = 2, round_to = 2) {
     if (class(ht) == "glht") {
         if (attributes(ht$model)$class == "lm") {
             if (sum(!grepl("log", (ht$model$call$formula[[2]]))) < 1) {
@@ -28,9 +28,9 @@ makeLogFCs <- function(ht, base = 2) {
             as.data.frame() %>%
             dplyr::rename(est = Estimate) %>%
             dplyr::mutate(contrast = gsub(plot_pred, "", rownames(.)),
-                   pct_label = paste0(as.character(round((1-base^est)*-100)),"%"),
-                   pct_fill = round((1-base^est)*-100),
-                   pval = summary(ht)$test$pvalues %>% round(., 3))
+                   pct_label = paste0(as.character(round((1-base^est)*-100, round_to)),"%"),
+                   pct_fill = round((1-base^est)*-100, round_to),
+                   pval = summary(ht)$test$pvalues %>% round(., round_to))
     }
     return(ht_df)
 }
