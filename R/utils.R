@@ -194,3 +194,38 @@ drcLabels <- function(breaks) {
   labels[1] <- 0
   return(labels)
 }
+
+
+#' Geometric mean
+#'
+#' Calculate the geometric mean.
+#' @param x A numeric vector whose geometric mean is to be calulated
+#' @return The geometric mean of \code{x}.
+#' @examples
+#' x <- rpois(10, lambda = 10)
+#' geom_mean(x)
+#' @export
+geom_mean <- function(x) {
+  x <- stats::na.omit(x)
+  res <- mean(log(x))
+  res <- exp(res)
+  return(res)
+}
+
+#' Geometric standard error of the mean
+#'
+#' Calculate the geometric standard error of the mean.
+#' @param x A numeric vector whose geometric standard error of the mean is to be calulated.
+#' @return The geometric standard error of the mean of \code{x}.
+#' @examples
+#' x <- rpois(10, lambda = 10)
+#' geom_mean_se(x)
+#' @export
+geom_mean_se <- function(x, mult = 1) {
+  x <- stats::na.omit(x)
+  x <- log(x)
+  se <- mult * sqrt(stats::var(x)/length(x))
+  mean <- mean(x)
+  res <- data.frame(y = exp(mean), ymin = exp(mean - se), ymax = exp(mean + se))
+  return(res)
+}
