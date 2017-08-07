@@ -9,28 +9,28 @@ drcPhotoBooth(dr_tib, coef_tib, curves_tib, y_var = "conc_incell_uM",
   limits = list(Isobutyryl = c(0, 45), Propionyl = c(0, 45)))
 }
 \arguments{
-\item{dr_tib}{A tibble with the target to be plotted}
+\item{dr_tib}{A data frame or tibble with the targets to be plotted.}
 
-\item{coef_tib}{A tibble with the \code{drm()} fit coefficents.}
+\item{coef_tib}{A data frame or tibble with the \code{drc::drm()} fit coefficents.}
 
-\item{curves_tib}{A tibble with the estimate curve data from \code{getCurves()}}
+\item{curves_tib}{A data frame or tibble with the estimated curve data from \code{assayr::getCurves()}.}
 
-\item{y_var}{A character with the \code{tib} column name to be used for the y-axis. Default is "conc_incell_uM", "conc_corrected" may also be useful.}
+\item{y_var}{A character with the column name in \code{dr_tib} to be used for the y-axis. Default is "conc_incell_uM"; "conc_corrected" may also be useful.}
 
-\item{grouping_var}{A character with the \code{tib} column name to be used for splitting the data into plots. Default is "tx_cmpd", "tx_total" may also be useful.}
+\item{grouping_var}{A character with the column name in \code{dr_tib} to be used for splitting the data into plots. Default is "tx_cmpd", "tx_total" may also be useful.}
 
-\item{output_path}{A character with valid file path. Default is current working directory.}
+\item{output_path}{A valid file path. Default is current working directory.}
 
 \item{new_folder}{A boolean whether to create a new folder automatically.}
 
-\item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis bound for each `curve_plot`. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior. Not used currently.}
+\item{limits}{A named list with the names matching \code{unique(tib$curve_plot)} and values of numeric vectors with length of 2, describind the y-axis limits for each \code{curve_plot}. If there is a target present in \code{targs} that is not in \code{limits} the limits will be calculated with \code{ggplot2}'s defualt behavior. Not used currently.}
 }
 \value{
 A directory of .png images, one for each in \code{unique(tib$tx_cmpd)}.
 }
 \description{
 Plot each selected targets for each cmpd from a PureHoney tibble separatly in a (n-curve)x1 \code{cowplot::plot_grid()} with \code{theme_assayr()}.
-This function is wrapper for the plot outputting and expects values to be already caluclated.
+This function is wrapper for the plot output and expects pre-caluclated data frames.
 }
 \examples{
 pah <- filter(samps2, run == "PAH0503") # tib
