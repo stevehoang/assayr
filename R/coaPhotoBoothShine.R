@@ -23,6 +23,7 @@ coaPhotoBoothShine <- function(tib,
                                x_max = Inf,
                                drop_oor = F) {
 
+
   if (y_var == "to_acoa_ratio") {
     tib <- normToAcetyl(tib)
   }
