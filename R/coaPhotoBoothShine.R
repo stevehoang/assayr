@@ -20,14 +20,20 @@ coaPhotoBoothShine <- function(tib,
                                             "Propionyl-CoA"),
                                species = "both",
                                limits = NULL,
-                               x_max = Inf) {
+                               x_max = Inf,
+                               drop_oor = F) {
 
   if (y_var == "to_acoa_ratio") {
     tib <- normToAcetyl(tib)
   }
+  # conditionally drop c_bools
+  if (drop_oor){
+    tib %<>% dplyr::filter(!c_bool)
+  }
 
   analytes %<>% gsub("-CoA$", "", .)
   tib$curve_plot %<>% gsub("-CoA$", "", .)
+  
   tib %<>% dplyr::filter(!c_bool)
   tib <- dplyr::filter(tib, tolower(curve_plot) %in% tolower(analytes))
 
