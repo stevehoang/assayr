@@ -89,7 +89,7 @@ drcPhotoBooth <- function(dr_tib,
           geom_vline(data = coef_tib2, aes(xintercept = upr), linetype = 3) +
           geom_label(data = coef_tib2,
                      aes(label = paste0(est, " [", lwr, "]","^", upr), x = est),
-                     y = Inf, vjust = 1, parse = T, alpha = .5) +
+                     y = Inf, vjust = 1, parse = T) +
         ggplot2::scale_x_log10(breaks = drcBreaks, limits = c(NA, max(dr_tib2$tx_conc))) +
         ggplot2::facet_wrap(~ targ, scales = "free") +
         ggplot2::labs(title = NULL,
