@@ -173,10 +173,11 @@ drcPhotoBoothShine <- function(tib,
     dplyr::filter(ys < maxes) %>%
     dplyr::filter(ys > mins)
 
-  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_ratio", "conc_corrected"),
+  ylabs <- hash::hash(c("conc_incell_uM", "to_acoa_ratio", "conc_corrected", "conc"),
                       c("intracellular concentration (uM)",
                         "analyte to acetyl-CoA ratio",
-                        "sample concentration (nM)"))
+                        "sample concentration (nM)",
+                        "raw sample concentraion (nM)"))
 
   p <- ggplot2::ggplot(tib_dr, ggplot2::aes_(x = ~tx_conc, y = as.name(y_var))) +
     ggplot2::scale_x_log10(breaks = c(0.01, 0.1, 1, 10, 100, 1000),
