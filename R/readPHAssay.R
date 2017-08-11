@@ -14,7 +14,7 @@ readPHAssay <- function(layout_file,
                         meta_names = c("contents", "sample_id", "imaging_plate", "imaging_well"),
                         skip = 10) {
 
-    read <- read.xlsx(layout_file, colNames = F)
+    read <- read.xlsx(layout_file, colNames = F, skipEmptyRows = F)
 
     plates <- grep("^1000\\d*", read[,1]) %>%
         set_names( grep("^1000\\d*", read[,1], value = T) %>%
