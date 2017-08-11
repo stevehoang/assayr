@@ -65,10 +65,7 @@ coaPhotoBooth <- function(tib,
               ggplot2::scale_fill_manual(values = cust_fill) +
               ggplot2::scale_color_manual(values = cust_color) +
               ggplot2::scale_shape_manual(values = c(21, 23), name = NULL, labels = c("Inside Curve", "Outside Curve")) +
-              ggplot2::scale_y_continuous(limits = limits[[cp]],
-                                          breaks = function(limits){seq(0,
-                                                                        limits[2],
-                                                                        ifelse(limits[2] >20, 10, round(limits[2]/4, 1) ) ) } ) +
+              ggplot2::scale_y_continuous(limits = limits[[cp]]) +
               ggplot2::labs(title = NULL,
                    y = paste0("[", cp, "] ", ifelse(y_var == "conc_incell_uM", "uM", "nM")),
                    x = NULL) +
