@@ -4,7 +4,7 @@
 \alias{getMetaData}
 \title{Import meta data}
 \usage{
-getMetaData(study_id, fully_parse = TRUE, static = TRUE)
+getMetaData(study_id, fully_parse = TRUE)
 }
 \arguments{
 \item{study_id}{Character vector in the standard study name format (i.e. "RNO0101-1" or "RNO0101").}
@@ -18,8 +18,10 @@ A data frame containing the meta information from a given study or a large data 
 Reads meta data from sample databases on Box via \code{boxr::box_read_excel()}
 }
 \examples{
+## Requires boxR credentials
 # returns only meta data from study RNO0738
 meta <- getMetaData("RNO0738")
+# return meta data from multiple studies
 meta <- getMetaData(c("HEM0100-5", "HEM0100-6"))
 
 # returns all studies' meta data from RNO07 project
